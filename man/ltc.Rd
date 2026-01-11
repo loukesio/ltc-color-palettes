@@ -6,7 +6,7 @@
 \alias{palettes}
 \title{List of colour palettes}
 \format{
-An object of class \code{list} of length 32.
+An object of class \code{list} of length 31.
 }
 \usage{
 palettes
@@ -14,7 +14,7 @@ palettes
 ltc(name, n, type = c("discrete", "continuous"))
 }
 \arguments{
-\item{name}{Character. The name of the desired palette.}
+\item{name}{Character or unquoted name. The name of the desired palette.}
 
 \item{n}{Integer. The number of colors you want from the palette.
 If omitted, it uses all colors from the palette.}
@@ -22,12 +22,13 @@ If omitted, it uses all colors from the palette.}
 \item{type}{The type of palette. Either "discrete" or "continuous".}
 }
 \value{
-A vector of hex color codes
+A vector of hex color codes with class "ltc"
 }
 \description{
 A list containing predefined colour palettes with artistic backstories.
 
 This function provides the desired colour palette by name.
+You can call it with or without quotes: ltc(paloma) or ltc("paloma")
 }
 \details{
 ltc: A Collection of Art-inspired Colour Palettes
@@ -37,9 +38,14 @@ art, nature, and personal preferences. Each palette has a backstory,
 providing context and meaning to the colors.
 }
 \examples{
-\dontrun{
-ltc("paloma")
-ltc("dora", n = 3)
-}
+# Load a palette (with or without quotes)
+ltc(paloma)
+ltc("maya")
+
+# Select first 3 colors
+ltc(maya, n = 3)
+
+# Generate continuous palette
+ltc(remains, n = 10, type = "continuous")
 }
 \keyword{datasets}

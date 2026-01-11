@@ -7,25 +7,23 @@
 custom_adjust_ltc(palette_name, adjustments)
 }
 \arguments{
-\item{palette_name}{Character. Name of the ltc palette.}
+\item{palette_name}{Character or unquoted name. Name of the ltc palette.}
 
 \item{adjustments}{Numeric vector. Lightness adjustments for each color (-100 to 100).
 Length must match the palette length.}
 }
 \value{
-A vector of adjusted hex color codes with class "palette"
+A vector of adjusted hex color codes with class "ltc"
 }
 \description{
 Apply different lightness adjustments to each color in a palette.
 }
 \examples{
-\dontrun{
-# Darken first color, lighten third, leave others unchanged
-custom <- custom_adjust_ltc("remains", c(-30, 0, 40, 0))
-pltc(custom)
+\donttest{
+# Different adjustment for each color
+custom_adjust_ltc(remains, c(-30, 0, 40, 0))
 
 # Create gradient effect
-gradient <- custom_adjust_ltc("maya", c(-40, -20, 0, 20, 40))
-pltc(gradient)
+custom_adjust_ltc("maya", c(-40, -20, 0, 20, 40))
 }
 }

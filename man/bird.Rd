@@ -7,17 +7,19 @@
 bird(chrom)
 }
 \arguments{
-\item{chrom}{A vector of colours from one of the \code{ltc} palettes.}
+\item{chrom}{An ltc palette object}
 }
 \value{
 A ggplot2 object showing a bird drawing using the selected colours.
 }
 \description{
 Visualizes a selected colour palette in the form of a bird drawing.
+Requires at least 5 colors in the palette.
 }
 \examples{
-\dontrun{
-paloma <- ltc("paloma")
-bird(paloma)
+\donttest{
+# Create a bird visualization
+pal <- ltc(paloma)
+bird(pal)
 }
 }

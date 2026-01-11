@@ -7,7 +7,7 @@
 desaturate_ltc(palette_name, amount = 0.5, which = NULL)
 }
 \arguments{
-\item{palette_name}{Character. Name of the ltc palette.}
+\item{palette_name}{Character or unquoted name. Name of the ltc palette.}
 
 \item{amount}{Numeric. Desaturation amount (0 to 1).
 0 = no change, 1 = completely gray.}
@@ -16,18 +16,17 @@ desaturate_ltc(palette_name, amount = 0.5, which = NULL)
 If NULL (default), affects all colors.}
 }
 \value{
-A vector of desaturated hex color codes
+A vector of desaturated hex color codes with class "ltc"
 }
 \description{
 Reduce color saturation (make colors more gray).
 }
 \examples{
-\dontrun{
-# Desaturate entire palette by 50\%
-gray_ish <- desaturate_ltc("luminaries", 0.5)
-pltc(gray_ish)
+\donttest{
+# Desaturate entire palette
+desaturate_ltc(luminaries, amount = 0.5)
 
-# Desaturate only first two colors
-mixed <- desaturate_ltc("heatmap2", 0.7, which = c(1, 2))
+# Desaturate only specific colors
+desaturate_ltc("heatmap2", amount = 0.7, which = c(1, 2))
 }
 }

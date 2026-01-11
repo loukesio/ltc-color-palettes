@@ -7,40 +7,30 @@
 adjust_ltc(palette_name, amount = 0, which = NULL)
 }
 \arguments{
-\item{palette_name}{Character. Name of the ltc palette to adjust.}
+\item{palette_name}{Character or unquoted name. Name of the ltc palette to adjust.}
 
 \item{amount}{Numeric. Amount to adjust lightness (-100 to 100).
-Negative values darken, positive values lighten.
-Default is 0 (no change).}
+Negative values darken, positive values lighten. Default is 0 (no change).}
 
 \item{which}{Integer vector. Which colors to adjust (e.g., c(1, 3) for 1st and 3rd).
 If NULL (default), adjusts all colors.}
 }
 \value{
-A vector of adjusted hex color codes with class "palette"
+A vector of adjusted hex color codes with class "ltc"
 }
 \description{
 Darken or lighten an entire palette or specific colors within it.
 Uses the colorspace package for perceptually uniform adjustments.
 }
 \examples{
-\dontrun{
-# Darken entire palette by 20
-dark_alger <- adjust_ltc("alger", amount = -20)
-pltc(dark_alger)
+\donttest{
+# Darken entire palette
+adjust_ltc(alger, amount = -20)
 
-# Lighten entire palette by 30
-light_maya <- adjust_ltc("maya", amount = 30)
-pltc(light_maya)
+# Lighten entire palette
+adjust_ltc("maya", amount = 30)
 
-# Darken only the 2nd and 4th colors
-mixed <- adjust_ltc("remains", amount = -25, which = c(2, 4))
-pltc(mixed)
-
-# Use in plotting
-library(ggplot2)
-ggplot(iris, aes(Sepal.Length, Sepal.Width, color = Species)) +
-  geom_point(size = 3) +
-  scale_color_manual(values = adjust_ltc("shuggie", -15, c(1,3)))
+# Darken only specific colors
+adjust_ltc(remains, amount = -25, which = c(2, 4))
 }
 }

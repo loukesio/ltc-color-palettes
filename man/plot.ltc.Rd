@@ -7,7 +7,7 @@
 \method{plot}{ltc}(x, ...)
 }
 \arguments{
-\item{x}{A vector of colours from one of the \code{ltc} palettes (palette object).}
+\item{x}{An ltc palette object}
 
 \item{...}{Additional arguments (currently unused).}
 }
@@ -18,8 +18,9 @@ A ggplot2 object showing the selected colours.
 Visualizes a selected colour palette as a bar of colours.
 }
 \examples{
-\dontrun{
-paloma <- ltc("paloma")
-plot.ltc(paloma)
+\donttest{
+# Create and plot a palette
+pal <- ltc(paloma)
+plot(pal)
 }
 }

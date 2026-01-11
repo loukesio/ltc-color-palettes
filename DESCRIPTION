@@ -16,10 +16,12 @@ RoxygenNote: 7.3.3
 URL: https://github.com/loukesio/ltc-color-palettes
 BugReports: https://github.com/loukesio/ltc-color-palettes/issues
 Imports:
-    dplyr,
-    ggforce,
+    grDevices,
     ggplot2,
-    colorspace
+    ggforce,
+    dplyr,
+    colorspace,
+    crayon
 Language: en-US
 Suggests:
     spelling
