@@ -27,15 +27,18 @@ library(ltc)
 
 ### Show all palettes
 ``` r
+library(ltc)
 names(palettes)
 #>  [1] "paloma"     "maya"       "dora"       "ploen"      "olga"      
 #>  [6] "mterese"    "gaby"       "franscoise" "fernande"   "sylvie"    
-#> [11] "crbhits"    "expevo"     "minou"      "kiss"       "hat"       
-#> [16] "reading"    "ten_colors" "alger"      "trio1"      "trio2"     
-#> [21] "trio3"      "trio4"      "heatmap"    "pantone23"
+#> [11] "expevo"     "minou"      "kiss"       "hat"        "reading"   
+#> [16] "ten_colors" "alger"      "trio1"      "trio2"      "trio3"     
+#> [21] "trio4"      "heatmap"    "pantone23"  "remains"    "midnight"  
+#> [26] "lincoln"    "luminaries" "seafarer"   "shuggie"    "heatmap1"  
+#> [31] "heatmap2"   "heatmap3"
 ```
-<sup>Created on 2023-09-03 with [reprex v2.0.2](https://reprex.tidyverse.org)</sup>
 
+<sup>Created on 2026-01-11 with [reprex v2.1.1](https://reprex.tidyverse.org)</sup>
 ### Choose the palette you like and print it
 - choose it using the `ltc` command.
 ``` r
@@ -43,7 +46,7 @@ alger <- ltc("alger") #in this case you select alger
 ```
 - after choosing the palette print it using the `pltc` command!
 ``` r
-pltc(alger)
+plot(alger)
 ```
 <img src="ReadMEFigures/alger.png" width=450>
 
@@ -65,7 +68,7 @@ bird(pantone23)
 ``` r
 library(ggplot2)
 library(ltc)
-pal=ltc("heatmap",10,"continuous")
+pal=ltc("heatmap0",10,"continuous")
 
 ggplot(data.frame(x = rnorm(1e4), y = rnorm(1e4)), aes(x = x, y = y)) +
   geom_hex() +
@@ -95,32 +98,8 @@ ggplot(diamonds, aes(price, fill = cut)) +
 
 <sup>Created on 2023-09-03 with [reprex v2.0.2](https://reprex.tidyverse.org)</sup>
 
-- Example 3 - Line plot
-``` r
-library(ltc)
-pal=ltc("maya",7,"continuous")
-plts(pal, main = "maya")
-```
-<img src="ReadMEFigures/line_plot_ltc.png" width=450>
-
-<sup>Created on 2023-09-03 with [reprex v2.0.2](https://reprex.tidyverse.org)</sup>
-
-- Example 4 - Transparency blend
-
-``` r
-library(ltc)
-pal=ltc("mterese",500,"continuous")
-plts(col2transparent(pal, 75))
-plts(pal, main = "mterese")
-```
-
-<img src="ReadMEFigures/transparency_blend_ltc.png" width=450>
-
-<sup>Created on 2023-09-03 with [reprex v2.0.2](https://reprex.tidyverse.org)</sup>
-
-
 ## Contributions
-Loukas Theodosiou (theoodosiou@evolbio.mpg.de) and Kristian Ullrich (ullrich@evolbio.mpg.de) have contributed to the development of this package. We have drawn inspiration from the drawings and life of Pablo Picasso as well as from the following books 
+Loukas Theodosiou (theoodosiou@evolbio.mpg.de) and Kristian Ullrich (ullrich@evolbio.mpg.de) have contributed to the development of this package. Kristian Ullirch has developed the `plts` function that creates different levels of transparency for a palette. These functions remain to the developmental version of the package and have not been submitted in CRAN. For the palettes I did draw inspiration from the drawings and life of Pablo Picasso as well as from the following books 
 <p float="left">
   <img src="ReadMEFigures/book1.jpeg" width="100" />
   <img src="ReadMEFigures/book2.jpeg" width="100" />
