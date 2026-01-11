@@ -21,7 +21,7 @@ install_github("loukesio/ltc-color-palettes")
 library(ltc)
 ```
 
-<img src="ReadMEFigures/all_colors_ltc.png" width=1000>
+<img src="ReadMEFigures/all_palettes.png" width=1000>
 
 ## How can I use the `ltc` package?
 
