@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  rstudio:
+    build: .
+    container_name: ltc-rstudio
+    ports:
+      - "8787:8787"
+    environment:
+      # Set password for RStudio Server (default user is 'rstudio')
+      - PASSWORD=ltc123
+      # Disable authentication (use only for local development)
+      # - DISABLE_AUTH=true
+    volumes:
+      # Mount a local directory for persistent data/projects
+      - ./workspace:/home/rstudio/workspace
+    restart: unless-stopped
+
+# Alternative service: Just R console without RStudio Server
+  r-console:
+    build: .
+    container_name: ltc-console
+    command: R
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./workspace:/home/rstudio/workspace
+    profiles:
+      - console

@@ -1,5 +1,7 @@
+adjust_ltc	adjust_ltc
 bird	bird
-col2transparent	col2transparent
+custom_adjust_ltc	custom_adjust_ltc
+desaturate_ltc	desaturate_ltc
 info	info
 ltc	ltc
 palettes	ltc

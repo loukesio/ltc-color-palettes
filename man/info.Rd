@@ -5,7 +5,7 @@
 \alias{info}
 \title{Information about the Colour Palettes}
 \format{
-An object of class \code{data.frame} with 24 rows and 2 columns.
+An object of class \code{data.frame} with 33 rows and 2 columns.
 }
 \usage{
 info

@@ -8,9 +8,9 @@
 * using session charset: UTF-8
 * using option ‘--as-cran’
 * checking for file ‘ltc/DESCRIPTION’ ... OK
-* this is package ‘ltc’ version ‘0.2.0’
+* this is package ‘ltc’ version ‘0.3.0’
 * package encoding: UTF-8
-* checking CRAN incoming feasibility ... [8s/36s] NOTE
+* checking CRAN incoming feasibility ... [4s/11s] NOTE
 Maintainer: ‘Loukas Theodosiou <theodosiou@evolbio.mpg.de>’
 
 New submission
@@ -23,13 +23,12 @@ New submission
 * checking for portable file names ... OK
 * checking for sufficient/correct file permissions ... OK
 * checking serialization versions ... OK
-* checking whether package ‘ltc’ can be installed ... [9s/28s] OK
+* checking whether package ‘ltc’ can be installed ... [7s/12s] OK
 * checking installed package size ... OK
 * checking package directory ... OK
 * checking for future file timestamps ... OK
 * checking DESCRIPTION meta-information ... OK
-* checking top-level files ... NOTE
-Files ‘README.md’ or ‘NEWS.md’ cannot be checked without ‘pandoc’ being installed.
+* checking top-level files ... OK
 * checking for left-over files ... OK
 * checking index information ... OK
 * checking package subdirectories ... OK
@@ -45,7 +44,7 @@ Files ‘README.md’ or ‘NEWS.md’ cannot be checked without ‘pandoc’ be
 * checking S3 generic/method consistency ... OK
 * checking replacement functions ... OK
 * checking foreign function calls ... OK
-* checking R code for possible problems ... [13s/42s] OK
+* checking R code for possible problems ... OK
 * checking Rd files ... OK
 * checking Rd metadata ... OK
 * checking Rd line widths ... OK
@@ -59,7 +58,7 @@ Files ‘README.md’ or ‘NEWS.md’ cannot be checked without ‘pandoc’ be
 * checking for unstated dependencies in ‘tests’ ... OK
 * checking tests ... OK
   Running ‘spelling.R’
-* checking PDF version of manual ... [23s/57s] OK
+* checking PDF version of manual ... [11s/11s] OK
 * checking HTML version of manual ... NOTE
 Skipping checking HTML validation: 'tidy' doesn't look like recent enough HTML Tidy.
 Please obtain a recent version of HTML Tidy by downloading a binary
@@ -67,4 +66,4 @@ release or compiling the source code from <https://www.html-tidy.org/>.
 * checking for non-standard things in the check directory ... OK
 * checking for detritus in the temp directory ... OK
 * DONE
-Status: 3 NOTEs
+Status: 2 NOTEs

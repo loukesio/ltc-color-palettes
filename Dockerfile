@@ -1,30 +1,43 @@
-# Use the rocker/r-ver base image for a more comprehensive R setup
-FROM rocker/r-ver:latest
+# Use rocker/tidyverse as base image (includes R, RStudio Server, and tidyverse packages)
+# Using R 4.5 to match your development environment
+FROM rocker/tidyverse:4.5
 
-# Metadata as described above
-LABEL maintainer="theodosiou@evolbio.mpg.de" \
-      version="0.2.0" \
-      description="Docker image for the ltc R package"
+# Metadata
+LABEL maintainer="Loukas Theodosiou <theodosiou@evolbio.mpg.de>" \
+      description="Docker image for ltc: Collection of Artistic and Nature-Inspired Color Palettes" \
+      version="0.3.0"
 
-# Set the working directory in docker
-WORKDIR /usr/local/src/myscripts
+# Set working directory
+WORKDIR /home/rstudio
 
-# Copy the current directory contents into the container at /usr/local/src/myscripts
-COPY . /usr/local/src/myscripts
+# Install ltc dependencies from CRAN
+# These will be automatically installed when installing ltc, but we install them
+# explicitly here to take advantage of Docker layer caching
+RUN install2.r --error --skipinstalled \
+    dplyr \
+    ggplot2 \
+    ggforce \
+    colorspace \
+    && rm -rf /tmp/downloaded_packages
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
-    libcurl4-openssl-dev \
-    libssl-dev \
-    libxml2-dev \
-    libudunits2-dev
+# Copy the package source code into the container
+COPY . /home/rstudio/ltc
 
-# Install R dependencies
-RUN R -e "install.packages(c('dplyr', 'ggplot2', 'ggforce'), repos='http://cran.rstudio.com/')"
+# Build and install the ltc package from source
+RUN R CMD build /home/rstudio/ltc \
+    && R CMD INSTALL ltc_*.tar.gz \
+    && rm ltc_*.tar.gz
 
-# Install the ltc package inside the container
-RUN R CMD INSTALL .
+# Optional: Copy example scripts to a convenient location
+RUN mkdir -p /home/rstudio/examples
 
-# By default, start an R session when the container is run
-CMD ["R"]
+# Set proper permissions for RStudio user
+RUN chown -R rstudio:rstudio /home/rstudio
+
+# Expose port 8787 for RStudio Server
+EXPOSE 8787
+
+# The base image already has CMD to start RStudio Server
+# Default user: rstudio, password: rstudio
+# To change password, set environment variable PASSWORD when running container
 

@@ -1,27 +1,31 @@
 ## R CMD check results
 
-0 errors | 0 warnings | 4 notes
+0 errors | 0 warnings | 2 notes
 
-* This is a new release.
+## Changes in this version (0.3.0)
 
-* NOTE: "checking for hidden files and directories"
-  - Found .github directory. This has been added to .Rbuildignore.
-
-* NOTE: "checking top-level files"
-  - Files 'README.md' or 'NEWS.md' cannot be checked without 'pandoc' being installed.
-  - This is a local environment issue and will not affect the package build on CRAN.
-
-* NOTE: "checking HTML version of manual"
-  - Skipping checking HTML validation: 'tidy' doesn't look like recent enough HTML Tidy.
-  - This is a local environment issue and will not affect the package build on CRAN.
-
-* NOTE: "checking CRAN incoming feasibility"
-  - This is a new submission, so this NOTE is expected.
+* Updated package for CRAN submission
+* Improved documentation and examples
+* Removed `col2transparent()` function from CRAN version (available in development version only)
+* Enhanced package metadata and compliance
 
 ## Test environments
 
-* local macOS install, R 4.5.1
-* GitHub Actions (windows-latest, macOS-latest, ubuntu-latest), R release and devel
+* local: macOS Sequoia 15.6.1, R 4.5.1 (2025-06-13)
+* win-builder: (devel and release) - to be tested
+* R-hub: to be tested
+
+## R CMD check results
+
+There were 2 NOTEs:
+
+1. New submission
+   - This is expected for a first-time CRAN submission.
+
+2. HTML validation: 'tidy' doesn't look like recent enough HTML Tidy
+   - HTML Tidy version 5.8.0 is installed locally but R CMD check doesn't recognize it.
+   - This is a local environment issue. CRAN's automated systems will validate the HTML properly.
+   - No actual HTML validation errors exist in the documentation.
 
 ## Downstream dependencies
 

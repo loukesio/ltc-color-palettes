@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.11.20)  8 JAN 2026 12:15
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.11.20)  11 JAN 2026 17:11
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -289,7 +289,7 @@ File: t1ptm.fd 2001/06/04 font definitions for T1/ptm.
 File: l3backend-pdftex.def 2024-05-08 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count302
 \l__pdf_internal_box=\box59
-) (/private/var/folders/fc/kqr5vp3x1wg4z_8jvxpwqp1m0000gn/T/RtmpZgy0vT/Rd2pdf13c1e1c19426/Rd2.aux)
+) (/private/var/folders/fc/kqr5vp3x1wg4z_8jvxpwqp1m0000gn/T/Rtmpv2UaRC/Rd2pdf16e3f36c050fc/Rd2.aux)
 \openout1 = `Rd2.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 8.
@@ -311,7 +311,7 @@ LaTeX Font Info:    ... okay on input line 8.
 LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 8.
 LaTeX Font Info:    ... okay on input line 8.
 Package hyperref Info: Link coloring ON on input line 8.
- (/private/var/folders/fc/kqr5vp3x1wg4z_8jvxpwqp1m0000gn/T/RtmpZgy0vT/Rd2pdf13c1e1c19426/Rd2.out) (/private/var/folders/fc/kqr5vp3x1wg4z_8jvxpwqp1m0000gn/T/RtmpZgy0vT/Rd2pdf13c1e1c19426/Rd2.out)
+ (/private/var/folders/fc/kqr5vp3x1wg4z_8jvxpwqp1m0000gn/T/Rtmpv2UaRC/Rd2pdf16e3f36c050fc/Rd2.out) (/private/var/folders/fc/kqr5vp3x1wg4z_8jvxpwqp1m0000gn/T/Rtmpv2UaRC/Rd2pdf16e3f36c050fc/Rd2.out)
 \@outlinefile=\write4
 \openout4 = `Rd2.out'.
 
@@ -328,7 +328,7 @@ File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 LaTeX Font Info:    Trying to load font information for U+msb on input line 27.
  (/Users/theodosiou/Library/TinyTeX/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-) (/private/var/folders/fc/kqr5vp3x1wg4z_8jvxpwqp1m0000gn/T/RtmpZgy0vT/Rd2pdf13c1e1c19426/Rd2.toc)
+) (/private/var/folders/fc/kqr5vp3x1wg4z_8jvxpwqp1m0000gn/T/Rtmpv2UaRC/Rd2pdf16e3f36c050fc/Rd2.toc)
 \tf@toc=\write5
 \openout5 = `Rd2.toc'.
 
@@ -339,7 +339,7 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 
 {/Users/theodosiou/Library/TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/Users/theodosiou/Library/TinyTeX/texmf-dist/fonts/enc/dvips/base/8r.enc}{/Users/theodosiou/Library/TinyTeX/texmf-dist/fonts/enc/dvips/inconsolata/i4-t1-0.enc}]
 LaTeX Font Info:    Font shape `T1/zi4/m/n' will be
-(Font)              scaled to size 9.0pt on input line 62.
+(Font)              scaled to size 9.0pt on input line 70.
 
 
 [2]
@@ -347,33 +347,34 @@ LaTeX Font Info:    Font shape `T1/zi4/m/n' will be
 [3]
 
 [4]
+
+[5]
+
+[6]
 No file Rd2.ind.
 
 
-[5] (/private/var/folders/fc/kqr5vp3x1wg4z_8jvxpwqp1m0000gn/T/RtmpZgy0vT/Rd2pdf13c1e1c19426/Rd2.aux)
+[7] (/private/var/folders/fc/kqr5vp3x1wg4z_8jvxpwqp1m0000gn/T/Rtmpv2UaRC/Rd2pdf16e3f36c050fc/Rd2.aux)
  ***********
 LaTeX2e <2024-11-01>
 L3 programming layer <2024-11-02>
  ***********
 Package rerunfilecheck Info: File `Rd2.out' has not changed.
-(rerunfilecheck)             Checksum: D27996BFB0A9819A2EE25EF89265B315;444.
+(rerunfilecheck)             Checksum: 909F3B500D0204E2CAA3AA444EECE472;708.
  ) 
 Here is how much of TeX's memory you used:
- 10339 strings out of 475322
- 158412 string characters out of 5769036
+ 10350 strings out of 475322
+ 158545 string characters out of 5769036
  551089 words of memory out of 5000000
- 32982 multiletter control sequences out of 15000+600000
+ 32980 multiletter control sequences out of 15000+600000
  590020 words of font info for 74 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 92i,5n,95p,262b,701s stack positions out of 10000i,1000n,20000p,200000b,200000s
-
-pdfTeX warning (dest): name{Rfn.grDevices::palette\(\)} has been referenced but does not exist, replaced by a fixed one
-
+ 92i,5n,95p,262b,735s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </Users/theodosiou/Library/TinyTeX/texmf-dist/fonts/type1/public/inconsolata/Inconsolata-zi4r.pfb></Users/theodosiou/Library/TinyTeX/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></Users/theodosiou/Library/TinyTeX/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></Users/theodosiou/Library/TinyTeX/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></Users/theodosiou/Library/TinyTeX/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on Rd2.pdf (5 pages, 77248 bytes).
+Output written on Rd2.pdf (7 pages, 83435 bytes).
 PDF statistics:
- 146 PDF objects out of 1000 (max. 8388607)
- 127 compressed objects within 2 object streams
- 54 named destinations out of 1000 (max. 500000)
- 49 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 177 PDF objects out of 1000 (max. 8388607)
+ 156 compressed objects within 2 object streams
+ 67 named destinations out of 1000 (max. 500000)
+ 65 words of extra memory for PDF output out of 10000 (max. 10000000)
 

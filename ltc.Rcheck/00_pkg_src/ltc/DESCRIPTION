@@ -1,6 +1,6 @@
 Package: ltc
 Title: Collection of Artistic and Nature-Inspired Color Palettes
-Version: 0.2.0
+Version: 0.3.0
 Authors@R: 
     c(person("Loukas Theodosiou", email = "theodosiou@evolbio.mpg.de", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-6418-4652")),
@@ -12,14 +12,14 @@ Description: Offers a variety of color palettes inspired by art, nature, and per
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.3
 URL: https://github.com/loukesio/ltc-color-palettes
 BugReports: https://github.com/loukesio/ltc-color-palettes/issues
-Imports: dplyr, ggforce, ggplot2
+Imports: dplyr, ggforce, ggplot2, colorspace
 Language: en-US
 Suggests: spelling
 NeedsCompilation: no
-Packaged: 2026-01-08 11:05:45 UTC; theodosiou
+Packaged: 2026-01-11 16:10:31 UTC; theodosiou
 Author: Loukas Theodosiou [aut, cre] (ORCID:
     <https://orcid.org/0000-0001-6418-4652>),
   Kristian Ullrich [aut] (ORCID: <https://orcid.org/0000-0003-4308-9626>)

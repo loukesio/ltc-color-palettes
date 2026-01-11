@@ -1,0 +1,112 @@
+name: Docker Build and Test
+
+on:
+  push:
+    branches:
+      - master
+      - main
+    paths:
+      - 'Dockerfile'
+      - 'docker-compose.yml'
+      - '.dockerignore'
+      - '.github/workflows/docker-build.yml'
+      - 'R/**'
+      - 'DESCRIPTION'
+      - 'NAMESPACE'
+  pull_request:
+    branches:
+      - master
+      - main
+    paths:
+      - 'Dockerfile'
+      - 'docker-compose.yml'
+      - '.dockerignore'
+  workflow_dispatch:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          push: false
+          tags: ltc:test
+          load: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Test Docker image - Check R version
+        run: |
+          docker run --rm ltc:test R --version
+
+      - name: Test Docker image - Check ltc installation
+        run: |
+          docker run --rm ltc:test R -e "library(ltc); packageVersion('ltc')"
+
+      - name: Test Docker image - List available palettes
+        run: |
+          docker run --rm ltc:test R -e "
+          library(ltc)
+          cat('Available palettes:\n')
+          print(names(palettes))
+          "
+
+      - name: Test Docker image - Run basic example
+        run: |
+          docker run --rm ltc:test R -e "
+          library(ltc)
+          pal <- ltc('alger')
+          if(length(pal) > 0) {
+            cat('✓ Basic palette selection successful\n')
+            cat('Palette colors:', pal, '\n')
+          } else {
+            stop('Palette selection failed')
+          }
+          "
+
+      - name: Test Docker image - Check dependencies
+        run: |
+          docker run --rm ltc:test R -e "
+          required_pkgs <- c('dplyr', 'ggplot2', 'ggforce', 'colorspace')
+          installed <- sapply(required_pkgs, requireNamespace, quietly = TRUE)
+          if(all(installed)) {
+            cat('✓ All dependencies installed\n')
+          } else {
+            cat('✗ Missing packages:', names(installed)[!installed], '\n')
+            quit(status = 1)
+          }
+          "
+
+      - name: Test Docker image - Test adjust_ltc function
+        run: |
+          docker run --rm ltc:test R -e "
+          library(ltc)
+          # Test lightening a palette
+          light_pal <- adjust_ltc('alger', amount = 20)
+          if(length(light_pal) > 0) {
+            cat('✓ adjust_ltc() works correctly\n')
+          } else {
+            stop('adjust_ltc() failed')
+          }
+          "
+
+      - name: Generate build report
+        if: always()
+        run: |
+          echo "## Docker Build Report" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Status:** ${{ job.status }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Branch:** ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Commit:** ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          docker images ltc:test --format "table {{.Repository}}\t{{.Tag}}\t{{.Size}}" >> $GITHUB_STEP_SUMMARY

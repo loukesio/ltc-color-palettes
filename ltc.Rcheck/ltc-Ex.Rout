@@ -37,6 +37,43 @@ Type 'q()' to quit R.
 > base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
 > base::assign(".old_wd", base::getwd(), pos = 'CheckExEnv')
 > cleanEx()
+> nameEx("adjust_ltc")
+> ### * adjust_ltc
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: adjust_ltc
+> ### Title: Adjust Lightness of Palette Colors
+> ### Aliases: adjust_ltc
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D # Darken entire palette by 20
+> ##D dark_alger <- adjust_ltc("alger", amount = -20)
+> ##D pltc(dark_alger)
+> ##D 
+> ##D # Lighten entire palette by 30
+> ##D light_maya <- adjust_ltc("maya", amount = 30)
+> ##D pltc(light_maya)
+> ##D 
+> ##D # Darken only the 2nd and 4th colors
+> ##D mixed <- adjust_ltc("remains", amount = -25, which = c(2, 4))
+> ##D pltc(mixed)
+> ##D 
+> ##D # Use in plotting
+> ##D library(ggplot2)
+> ##D ggplot(iris, aes(Sepal.Length, Sepal.Width, color = Species)) +
+> ##D   geom_point(size = 3) +
+> ##D   scale_color_manual(values = adjust_ltc("shuggie", -15, c(1,3)))
+> ## End(Not run)
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("adjust_ltc", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
 > nameEx("bird")
 > ### * bird
 > 
@@ -59,26 +96,58 @@ Type 'q()' to quit R.
 > base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
 > base::cat("bird", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > cleanEx()
-> nameEx("col2transparent")
-> ### * col2transparent
+> nameEx("custom_adjust_ltc")
+> ### * custom_adjust_ltc
 > 
 > flush(stderr()); flush(stdout())
 > 
 > base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: col2transparent
-> ### Title: col2transparent
-> ### Aliases: col2transparent
+> ### Name: custom_adjust_ltc
+> ### Title: Create Custom Palette with Individual Color Adjustments
+> ### Aliases: custom_adjust_ltc
 > 
 > ### ** Examples
 > 
-> paloma <- ltc("paloma")
-> paloma <- col2transparent(paloma,50)
-> plts(paloma)
+> ## Not run: 
+> ##D # Darken first color, lighten third, leave others unchanged
+> ##D custom <- custom_adjust_ltc("remains", c(-30, 0, 40, 0))
+> ##D pltc(custom)
+> ##D 
+> ##D # Create gradient effect
+> ##D gradient <- custom_adjust_ltc("maya", c(-40, -20, 0, 20, 40))
+> ##D pltc(gradient)
+> ## End(Not run)
 > 
 > 
 > 
 > base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
-> base::cat("col2transparent", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> base::cat("custom_adjust_ltc", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("desaturate_ltc")
+> ### * desaturate_ltc
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: desaturate_ltc
+> ### Title: Desaturate Palette Colors
+> ### Aliases: desaturate_ltc
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D # Desaturate entire palette by 50%
+> ##D gray_ish <- desaturate_ltc("luminaries", 0.5)
+> ##D pltc(gray_ish)
+> ##D 
+> ##D # Desaturate only first two colors
+> ##D mixed <- desaturate_ltc("heatmap2", 0.7, which = c(1, 2))
+> ## End(Not run)
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("desaturate_ltc", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > cleanEx()
 > nameEx("ltc")
 > ### * ltc
@@ -151,7 +220,7 @@ Type 'q()' to quit R.
 > cleanEx()
 > options(digits = 7L)
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  1.507 0.728 7.102 0 0 
+Time elapsed:  0.943 0.042 0.989 0 0 
 > grDevices::dev.off()
 null device 
           1 
