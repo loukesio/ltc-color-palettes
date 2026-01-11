@@ -20,7 +20,6 @@ palettes <- list(
   franscoise = c("#5980B1","#b96a8d","#A55062","#E05256","#E9A986"),
   fernande = c("#ff7676","#F9D662","#7cab7d","#75B7D1"),
   sylvie = c("#E8B961","#E88170","#C6BDE8","#5DB7C4","#FD95BC"),
-  crbhits = c("#CBC106","#27993C","#1C6838","#8EBCB5","#389CA7","#4D83AB","#CB7B26","#BF565D","#9E163C"),
   expevo = c("#FC4E07","#E7B800","#00AFBB","#8B4769","#1d457f","#808080"),
   minou = c("#00798c","#d1495b","#edae49","#66a182","#2e4057","#8d96a3"),
   kiss = c("#FF7C7E","#FEC300","#9E3F71","#31BCBA","#E20035"),
@@ -34,14 +33,12 @@ palettes <- list(
   trio4 = c("#94475E","#364C54","#E5A11F"),
   heatmap = c("#001219","#005F73","#0A9396","#94D2BD","#E9D8A6","#EE9B00","#CA6702","#AE2012","#9B2226"),
   pantone23 = c("#7A92A5","#1F2C43","#FFB000","#842c48","#46483d"),
-  # New Booker Prize-inspired palettes
   remains = c("#69326E", "#EEEDC0", "#FF6D1F", "#EED455"),
   midnight = c("#16232A", "#FF5B04", "#075056", "#E4EEF0"),
   lincoln = c("#EEE9DF", "#C9C1B1", "#2C3B4D", "#FFB162", "#A35139", "#1B2632"),
   luminaries = c("#FF5B04", "#075056", "#233038", "#FDF6E3", "#F4D47C", "#D3DBDD"),
   seafarer = c("#013D5A", "#FCF3E3", "#BDD3CE", "#708C69", "#E4A25B"),
   shuggie = c("#5B5F8D", "#9BB29E", "#DA6B51", "#F1DCBA", "#484149"),
-  # New diverging heatmap palettes
   heatmap1 = c("#4d7799", "#7fa4c4", "#c5c8d4", "#d48e95", "#b5515b"),
   heatmap2 = c("#ca0020", "#f4a582", "#f7f7f7", "#92c5de", "#0571b0"),
   heatmap3 = c("#d7191c", "#fdae61", "#ffffbf", "#abd9e9", "#2c7bb6")
@@ -54,15 +51,17 @@ palettes <- list(
 #' @param n Integer. The number of colors you want from the palette.
 #' If omitted, it uses all colors from the palette.
 #' @param type The type of palette. Either "discrete" or "continuous".
-#' @return A vector of hex color codes
+#' @return A vector of hex color codes with class "palette"
 #' @examples
-#' \dontrun{
+#' # Load a palette
 #' ltc("paloma")
-#' ltc("dora", n = 3)
-#'}
+#'
+#' # Select first 3 colors
+#' ltc("maya", n = 3)
+#'
+#' # Generate continuous palette
+#' ltc("remains", n = 10, type = "continuous")
 #' @export
-
-
 ltc <- function(name, n, type = c("discrete", "continuous")) {
   type <- match.arg(type)
 
@@ -86,6 +85,20 @@ ltc <- function(name, n, type = c("discrete", "continuous")) {
   structure(out, class = "palette", name = name)
 }
 
+#' @title Print Method for Palette Objects
+#' @description Custom print method for palette objects that displays
+#' the palette name followed by the hex color codes.
+#' @param x A palette object created by ltc()
+#' @param ... Additional arguments (currently unused)
+#' @return Invisibly returns the palette object
+#' @export
+print.palette <- function(x, ...) {
+  palette_name <- attr(x, "name")
+  cat(palette_name, "\n", sep = "")
+  cat(paste(x, collapse = "\n"), "\n", sep = "")
+  invisible(x)
+}
+
 #' @title Information about the Colour Palettes
 #' @description This dataframe contains the backstory or inspiration behind each color palette.
 #' @export
@@ -100,7 +113,6 @@ info <- data.frame(
                    "franscoise",
                    "fernande",
                    "sylvie",
-                   "crbhits",
                    "expevo",
                    "minou",
                    "kiss",
@@ -133,7 +145,6 @@ info <- data.frame(
           "Francoise Gilot was a significant French painter",
           "Fernande was a French model and artist",
           "Sylvette David is a French artist and model",
-          "CRBHits is a R package developed by K Ullrich",
           "A palette that is often being used by biologists",
           "Minou was Picasso's favorite cat",
           "Inspired by The Kiss Picasso 1925",
@@ -160,106 +171,98 @@ info <- data.frame(
 
 #' @title Plot a Colour Palette
 #' @description Visualizes a selected colour palette as a bar of colours.
-#' @param ... Additional arguments passed on to ggplot functions.
-#' @param chromata A vector of colours from one of the `ltc` palettes.
+#' @param x A vector of colours from one of the `ltc` palettes (palette object).
+#' @param ... Additional arguments (currently unused).
 #' @return A ggplot2 object showing the selected colours.
 #' @examples
-#' \dontrun{
-#' paloma <- ltc("paloma")
-#' pltc(paloma)
-#'}
+#' \donttest{
+#' # Create and plot a palette
+#' pal <- ltc("paloma")
+#' plot(pal)
+#' }
 #' @importFrom ggplot2 ggplot aes geom_tile theme_void labs theme element_text geom_text
 #' @importFrom dplyr filter %>%
 #' @export
-pltc <- function(chromata, ...) {
+plot.ltc <- function(x, ...) {
 
-  # Assuming info is available in the global environment or it's part of your package data.
-  info2 = info %>%
-    filter(palette_name == attributes(chromata)$name)
+  chromata <- x
+
+  # Get palette info
+  info2 <- info %>%
+    dplyr::filter(palette_name == attributes(chromata)$name)
 
   n <- length(chromata)
   df <- data.frame(xvals = c(1:n), yvals = rep(1, n), text = chromata[1:n])
 
-  ggplot(df, aes(x = xvals, y = yvals)) +
-    geom_tile(fill = chromata,
-              colour = "white",
-              size = 1) +
-    geom_text(aes(label=text), color="#333333", nudge_y = -0.53) +
-    theme_void() +
-    theme(plot.title = element_text(hjust = 0.5, face="italic"),
-          plot.subtitle = element_text(hjust = 0.5, size=10),    # Subtitle customization
-          legend.position = "none") +
-    labs(title = info2$palette_name, subtitle = info2$bio)
-}
-
-#' @title Plot a Colour Palette as a Sinus Curve
-#' @description Visualizes a selected colour palette as a sinusoidal curve.
-#' @param ... Additional arguments passed on to ggplot functions.
-#' @param chromata A vector of colours from one of the `ltc` palettes.
-#' @return A sinusoidal curve with the selected colors.
-#' @examples
-#' \dontrun{
-#' paloma <- ltc("paloma")
-#' plts(paloma)
-#'}
-#' @export
-
-plts <- function(chromata, ...) {
-  x <- outer(
-    seq(-pi, pi, length.out = 50),
-    seq(0, pi, length.out = length(chromata)),
-    function(x, y) sin(x - y))
-  graphics::matplot(x, type = "l", lwd = 4, lty = 1, col = chromata, ...)
+  ggplot2::ggplot(df, ggplot2::aes(x = xvals, y = yvals)) +
+    ggplot2::geom_tile(fill = chromata,
+                       colour = "white",
+                       linewidth = 1) +
+    ggplot2::geom_text(ggplot2::aes(label = text), color = "#333333", nudge_y = -0.53) +
+    ggplot2::theme_void() +
+    ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5, face = "italic"),
+                   plot.subtitle = ggplot2::element_text(hjust = 0.5, size = 10),
+                   legend.position = "none") +
+    ggplot2::labs(title = info2$palette_name, subtitle = info2$bio)
 }
 
 #' @title Plot a Colour Palette as a Bird
 #' @description Visualizes a selected colour palette in the form of a bird drawing.
+#' Requires at least 5 colors in the palette.
 #'
 #' @param chrom A vector of colours from one of the `ltc` palettes.
 #' @return A ggplot2 object showing a bird drawing using the selected colours.
 #' @examples
-#' \dontrun{
-#' paloma <- ltc("paloma")
-#' bird(paloma)
-#'}
-#' @importFrom ggplot2 ggplot theme_void labs theme
+#' \donttest{
+#' # Create a bird visualization
+#' pal <- ltc("paloma")
+#' bird(pal)
+#' }
+#' @importFrom ggplot2 ggplot theme_void labs theme aes geom_rect element_text
 #' @importFrom ggforce geom_shape
-#' @importFrom dplyr filter
-#' @importFrom dplyr %>%
-#' @importFrom ggplot2 element_text
+#' @importFrom dplyr filter %>%
 #' @export
-
 bird <- function(chrom){
-  data=data.frame(x1=0,x2=5,y1=-5,y2=5, x3=4.5,x4=5.5,y3=0,y4=12)
+
+  # Check if palette has enough colors
+  if (length(chrom) < 5) {
+    stop("Bird visualization requires at least 5 colors. Current palette has ",
+         length(chrom), " colors.")
+  }
+
+  data <- data.frame(x1 = 0, x2 = 5, y1 = -5, y2 = 5, x3 = 4.5, x4 = 5.5, y3 = 0, y4 = 12)
 
   shape1 <- data.frame(
     x = c(2, 3, 3, 2),
     y = c(0, 2, 8, 10)
   )
   shape2 <- data.frame(
-    x2=c(2,2.5,2.5,2),
-    y2=c(1,3,-2,-4)
+    x2 = c(2, 2.5, 2.5, 2),
+    y2 = c(1, 3, -2, -4)
   )
   shape3 <- data.frame(
-    x3=c(3,3.22,3),
-    y3=c(8,8,7.33)
+    x3 = c(3, 3.22, 3),
+    y3 = c(8, 8, 7.33)
   )
   shape4 <- data.frame(
-    x4=c(1.99,2.5, 3.01,3.01,2,2),
-    y4=c(5, 6.5,5,  2, -0.01,1)
+    x4 = c(1.99, 2.5, 3.01, 3.01, 2, 2),
+    y4 = c(5, 6.5, 5, 2, -0.01, 1)
   )
 
-  info2 = info %>%
-    filter(palette_name==attributes(chrom)$name)
+  info2 <- info %>%
+    dplyr::filter(palette_name == attributes(chrom)$name)
 
   ggplot2::ggplot() +
-    ggplot2::geom_rect(data=data, mapping=aes(xmin=x1, xmax=x2, ymin=y1, ymax=y4), fill=chrom[1],color="NA") +
-    ggforce::geom_shape(data=shape1, aes(x = x, y = y), fill=chrom[2]) +
-    ggforce::geom_shape(data=shape3, aes(x=x3,y=y3), fill=chrom[3]) +
-    ggforce::geom_shape(data=shape4, aes(x=x4,y=y4), fill=chrom[4]) +
-    ggforce::geom_shape(data=shape2, aes(x=x2,y=y2), fill=chrom[5]) +
+    ggplot2::geom_rect(data = data,
+                       mapping = ggplot2::aes(xmin = x1, xmax = x2, ymin = y1, ymax = y4),
+                       fill = chrom[1], color = "NA") +
+    ggforce::geom_shape(data = shape1, ggplot2::aes(x = x, y = y), fill = chrom[2]) +
+    ggforce::geom_shape(data = shape3, ggplot2::aes(x = x3, y = y3), fill = chrom[3]) +
+    ggforce::geom_shape(data = shape4, ggplot2::aes(x = x4, y = y4), fill = chrom[4]) +
+    ggforce::geom_shape(data = shape2, ggplot2::aes(x = x2, y = y2), fill = chrom[5]) +
     ggplot2::theme_void() +
     ggplot2::labs(title = info2$palette_name, subtitle = info2$bio) +
-    ggplot2::theme(plot.title = element_text(hjust = 0.5, face="italic"),
-                   plot.subtitle = element_text(hjust = 0.5, size=10))
+    ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5, face = "italic"),
+                   plot.subtitle = ggplot2::element_text(hjust = 0.5, size = 10))
 }
+
