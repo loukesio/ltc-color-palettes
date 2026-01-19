@@ -1,7 +1,8 @@
-[![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
-[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/icon)](https://cran.r-project.org/package=icons)
+[![R-CMD-check](https://github.com/loukesio/ltc-color-palettes/actions/workflows/R-CMD-check.yml/badge.svg)](https://github.com/loukesio/ltc-color-palettes/actions/workflows/R-CMD-check.yml)
+[![Docker Build](https://github.com/loukesio/ltc-color-palettes/actions/workflows/docker-build.yml/badge.svg)](https://github.com/loukesio/ltc-color-palettes/actions/workflows/docker-build.yml)
+[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/ltc)](https://cran.r-project.org/package=ltc)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
-[![GitHub clones](https://img.shields.io/badge/Clones-1000+-blue)]()
+[![CRAN downloads](https://cranlogs.r-pkg.org/badges/grand-total/ltc)](https://cran.r-project.org/package=ltc)
 
 
 ## Install package
