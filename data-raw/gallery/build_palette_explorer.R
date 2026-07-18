@@ -225,8 +225,8 @@ render();
 html <- gsub("__DATA__", data_json,
              gsub("__OPTS__", opts_html, tmpl, fixed = TRUE), fixed = TRUE)
 
-dir.create("pkgdown", showWarnings = FALSE)
-writeLines(html, file.path("pkgdown", "palette-explorer.html"))
-message("Wrote pkgdown/palette-explorer.html (",
-        round(file.info("pkgdown/palette-explorer.html")$size / 1e6, 2), " MB, ",
-        length(recs), " palettes)")
+out <- file.path("pkgdown", "assets", "palette-explorer.html")
+dir.create(dirname(out), showWarnings = FALSE, recursive = TRUE)
+writeLines(html, out)
+message("Wrote ", out, " (",
+        round(file.info(out)$size / 1e6, 2), " MB, ", length(recs), " palettes)")

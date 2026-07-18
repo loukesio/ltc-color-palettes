@@ -28,3 +28,5 @@
 ^BUILD_DOCKER\.md$
 ^data-raw$
 ^pkgdown$
+^_pkgdown\.yml$
+^docs$

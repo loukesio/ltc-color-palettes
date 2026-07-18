@@ -1,0 +1,33 @@
+url: https://loukesio.github.io/ltc-color-palettes/
+
+template:
+  bootstrap: 5
+
+navbar:
+  structure:
+    left:  [reference, articles]
+    right: [explorer, search, github]
+  components:
+    explorer:
+      text: Palette Explorer
+      href: palette-explorer.html
+
+reference:
+- title: Palettes
+  desc: Select and inspect the palette collection.
+  contents:
+  - ltc
+  - info
+- title: Visualise
+  desc: Draw a palette.
+  contents:
+  - plot.ltc
+  - print.ltc
+  - bird
+- title: Adjust and check
+  desc: Tune palettes and check colour-vision accessibility.
+  contents:
+  - adjust_ltc
+  - custom_adjust_ltc
+  - desaturate_ltc
+  - ltc_cvd
