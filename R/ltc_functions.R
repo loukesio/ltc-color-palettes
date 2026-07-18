@@ -40,7 +40,9 @@ palettes <- list(
   shuggie = c("#5B5F8D", "#9BB29E", "#DA6B51", "#F1DCBA", "#484149"),
   heatmap1 = c("#4d7799", "#7fa4c4", "#c5c8d4", "#d48e95", "#b5515b"),
   heatmap2 = c("#ca0020", "#f4a582", "#f7f7f7", "#92c5de", "#0571b0"),
-  heatmap3 = c("#d7191c", "#fdae61", "#ffffbf", "#abd9e9", "#2c7bb6")
+  heatmap3 = c("#d7191c", "#fdae61", "#ffffbf", "#abd9e9", "#2c7bb6"),
+  casa_natal = c("#245E55", "#ED773C", "#808BC5", "#C63F3E", "#EAC119",
+                 "#EAA7C7", "#9ED6DF", "#1D1D1B", "#EAE4DA")
 )
 
 #' @title Select a Colour Palette from ltc
@@ -159,7 +161,8 @@ info <- data.frame(
                    "shuggie",
                    "heatmap1",
                    "heatmap2",
-                   "heatmap3"),
+                   "heatmap3",
+                   "casa_natal"),
   bio = c("Daughter of Francoise Gilot and Pablo Picasso",
           "Daughter of Marie-Therese Walter and Pablo Ruiz Picasso",
           "French photographer, painter, and poet",
@@ -190,7 +193,8 @@ info <- data.frame(
           "Inspired by Shuggie Bain by Douglas Stuart (Booker Prize 2020)",
           "Blue and Red diverging palette 7 - ideal for heatmaps and expression data",
           "Blue and Red diverging palette 8 - classic diverging scheme",
-          "Blue and Red diverging palette 9 - warm-cool diverging palette"),
+          "Blue and Red diverging palette 9 - warm-cool diverging palette",
+          "Casa Natal on the Plaza de la Merced, the birthplace of Picasso"),
   stringsAsFactors = FALSE
 )
 

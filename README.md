@@ -9,20 +9,38 @@
 Install the package using the following commands  <img align="right" src="ReadMEFigures/new_logo_ltc.png" width=400>
 
 ```r
-# for now, you can install the developmental version of ltc
-# first you need to install the devtools package 
-# in case you have not already installed
-install.packages("devtools") 
-# and load it
-library(devtools)
+# Install the released version from CRAN
+install.packages("ltc")
 
-# Then you can install the dev version of the ltc
-install_github("loukesio/ltc-color-palettes")
+# Or, if you want the latest development version from GitHub:
+# install.packages("devtools")
+devtools::install_github("loukesio/ltc-color-palettes")
+
 # and load it
 library(ltc)
 ```
 
 <img src="ReadMEFigures/all_palettes.png" width=1000>
+
+## Palettes in action
+
+Every palette in the package, shown across six chart types — a map, a Voronoi
+treemap, a heatmap, a bubble chart, a barplot and a streamgraph:
+
+<img src="ReadMEFigures/palettes_showcase.gif" width=800>
+
+A couple of examples of `ltc` palettes on real data. Every palette works as a
+discrete scale, a continuous scale, or a diverging one.
+
+A discrete scale — life expectancy against income across the world in 2007,
+coloured by continent with the `expevo` palette:
+
+<img src="ReadMEFigures/bubble_gapminder.png" width=650>
+
+And a continuous scale — estimated GDP per capita across Europe, drawn with the
+`heatmap0` palette:
+
+<img src="ReadMEFigures/europe_map.png" width=650>
 
 ## How can I use the `ltc` package?
 
@@ -33,13 +51,12 @@ names(palettes)
 #>  [1] "paloma"     "maya"       "dora"       "ploen"      "olga"      
 #>  [6] "mterese"    "gaby"       "franscoise" "fernande"   "sylvie"    
 #> [11] "expevo"     "minou"      "kiss"       "hat"        "reading"   
-#> [16] "ten_colors" "alger"      "trio1"      "trio2"      "trio3"     
-#> [21] "trio4"      "heatmap"    "pantone23"  "remains"    "midnight"  
-#> [26] "lincoln"    "luminaries" "seafarer"   "shuggie"    "heatmap1"  
-#> [31] "heatmap2"   "heatmap3"
+#> [16] "alger"      "trio1"      "trio2"      "trio3"      "trio4"     
+#> [21] "heatmap0"   "pantone23"  "remains"    "midnight"   "lincoln"   
+#> [26] "luminaries" "seafarer"   "shuggie"    "heatmap1"   "heatmap2"  
+#> [31] "heatmap3"   "casa_natal"
 ```
 
-<sup>Created on 2026-01-11 with [reprex v2.1.1](https://reprex.tidyverse.org)</sup>
 ### Choose the palette you like and print it
 - choose it using the `ltc` command.
 ``` r
@@ -61,6 +78,40 @@ bird(pantone23)
 <img src="ReadMEFigures/pantone_bird_ltc.png" width=450>
 
 <sup>Created on 2023-09-03 with [reprex v2.0.2](https://reprex.tidyverse.org)</sup>
+
+### Adjust a palette — darken, brighten, or desaturate
+
+Every palette can be tuned without leaving the package. `adjust_ltc()` darkens
+(negative `amount`) or lightens (positive `amount`) the colours, and
+`desaturate_ltc()` mutes them:
+
+``` r
+library(ltc)
+
+adjust_ltc(maya, amount = -30)      # darker
+adjust_ltc(maya, amount =  30)      # lighter
+desaturate_ltc(maya, amount = 0.6)  # muted
+
+# tune individual colours, or give each its own amount
+adjust_ltc(maya, amount = -25, which = c(1, 4))
+custom_adjust_ltc(maya, c(-40, -20, 0, 20, 40))
+```
+
+<img src="ReadMEFigures/adjust_showcase.png" width=650>
+
+### Check colour-vision accessibility
+
+`ltc_cvd()` simulates how a palette looks to viewers with the three main types of
+colour-vision deficiency, so you can check that the colours stay distinct:
+
+``` r
+library(ltc)
+
+ltc_cvd(maya)                     # normal + deuteranopia / protanopia / tritanopia
+ltc_cvd("expevo", severity = 0.6) # milder simulation
+```
+
+<img src="ReadMEFigures/cvd_showcase.png" width=650>
 
 ### Test how the palette looks like in plots...
 
@@ -100,7 +151,7 @@ ggplot(diamonds, aes(price, fill = cut)) +
 <sup>Created on 2023-09-03 with [reprex v2.0.2](https://reprex.tidyverse.org)</sup>
 
 ## Contributions
-Loukas Theodosiou (theoodosiou@evolbio.mpg.de) and Kristian Ullrich (ullrich@evolbio.mpg.de) have contributed to the development of this package. Kristian Ullirch has developed the `plts` function that creates different levels of transparency for a palette. These functions remain to the developmental version of the package and have not been submitted in CRAN. For the palettes I did draw inspiration from the drawings and life of Pablo Picasso as well as from the following books 
+The `ltc` package is developed and maintained by Loukas Theodosiou (theodosiou@evolbio.mpg.de). For the palettes I drew inspiration from the drawings and life of Pablo Picasso as well as from the following books 
 <p float="left">
   <img src="ReadMEFigures/book1.jpeg" width="100" />
   <img src="ReadMEFigures/book2.jpeg" width="100" />

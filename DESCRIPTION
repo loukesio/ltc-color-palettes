@@ -2,10 +2,8 @@ Package: ltc
 Title: Collection of Artistic and Nature-Inspired Color Palettes
 Version: 0.3.0
 Authors@R:
-    c(person("Loukas Theodosiou", email = "theodosiou@evolbio.mpg.de", role = c("aut", "cre"),
-           comment = c(ORCID = "0000-0001-6418-4652")),
-      person("Kristian Ullrich", role = c("aut"),
-           comment = c(ORCID = "0000-0003-4308-9626")))
+    person("Loukas Theodosiou", email = "theodosiou@evolbio.mpg.de", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0001-6418-4652"))
 Description: Offers a variety of color palettes inspired by art, nature, and personal
     inspirations. Each palette is accompanied by a unique backstory, enriching the
     understanding and significance of the colors.
