@@ -30,3 +30,9 @@
 ^pkgdown$
 ^_pkgdown\.yml$
 ^docs$
+^man/figures$
+^man/figures/
+^.*\.tar\.gz$
+^ltc\.Rcheck$
+^claude_instructions$
+^claude_instructions/
