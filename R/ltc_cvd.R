@@ -27,18 +27,24 @@
 #' @export
 ltc_cvd <- function(name, severity = 1, labels = TRUE) {
 
-  # resolve the palette: a hex vector, or a palette name (quoted/unquoted)
+  # resolve the palette without forcing an unquoted name (mirrors ltc()):
+  # accept a quoted name, an unquoted palette name, or a vector of hex colours
   name_expr <- substitute(name)
-  if (is.character(name) && length(name) > 1) {
-    pal <- name
-    pal_name <- "palette"
-  } else {
-    pal_name <- if (is.character(name)) name else as.character(name_expr)
+  pal_name <- NULL
+  if (is.character(name_expr)) {
+    pal_name <- name_expr
+  } else if (is.name(name_expr) && !is.null(palettes[[as.character(name_expr)]])) {
+    pal_name <- as.character(name_expr)
+  }
+  if (!is.null(pal_name)) {
     pal <- palettes[[pal_name]]
     if (is.null(pal)) {
       stop("Palette '", pal_name,
            "' not found. Use names(palettes) to see available palettes.")
     }
+  } else {
+    pal <- eval(name_expr, parent.frame())   # a character vector of hex colours
+    pal_name <- "palette"
   }
 
   if (severity < 0 || severity > 1) {

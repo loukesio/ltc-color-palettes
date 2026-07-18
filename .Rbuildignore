@@ -26,3 +26,5 @@
 ^docker-compose\.yml$
 ^DOCKER\.md$
 ^BUILD_DOCKER\.md$
+^data-raw$
+^pkgdown$
