@@ -1,3 +1,6 @@
+📖 **Website & interactive palette explorer:**
+<https://loukesio.github.io/ltc-color-palettes/>
+
 ## Install package
 
 Install the package using the following commands
@@ -24,6 +27,11 @@ Every palette in the package, shown across six chart types — a map, a
 Voronoi treemap, a heatmap, a bubble chart, a barplot and a streamgraph:
 
 ![](ReadMEFigures/palettes_showcase.gif)
+
+Try them yourself in the [**interactive palette
+explorer**](https://loukesio.github.io/ltc-color-palettes/palette-explorer.html)
+— switch between palettes, darken or brighten them, and check how they
+hold up under colour-vision deficiency.
 
 A couple of examples of `ltc` palettes on real data. Every palette works
 as a discrete scale, a continuous scale, or a diverging one.
