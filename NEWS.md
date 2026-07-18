@@ -1,3 +1,25 @@
+# ltc 0.4.0
+
+## New features
+
+* New palette `casa_natal`, inspired by Casa Natal on the Plaza de la Merced,
+  the birthplace of Picasso.
+* New function `ltc_cvd()` previews a palette under the three main types of
+  colour-vision deficiency (deuteranopia, protanopia, tritanopia).
+
+## Website and documentation
+
+* Added a **pkgdown** website with an interactive palette explorer (every
+  palette across six chart types, with brightness and colour-vision controls).
+* Redesigned the all-palettes overview figure and added a gallery of example
+  charts plus an animated palette showcase.
+* README now documents CRAN installation, the palette-adjustment functions,
+  and the colour-vision check.
+
+## Other
+
+* Kristian Ullrich removed from the author list.
+
 # ltc 0.3.0
 
 ## CRAN Release Preparation

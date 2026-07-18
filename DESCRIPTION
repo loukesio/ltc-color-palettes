@@ -1,6 +1,6 @@
 Package: ltc
 Title: Collection of Artistic and Nature-Inspired Color Palettes
-Version: 0.3.0
+Version: 0.4.0
 Authors@R:
     person("Loukas Theodosiou", email = "theodosiou@evolbio.mpg.de", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-6418-4652"))
