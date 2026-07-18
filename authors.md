@@ -8,7 +8,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/loukesio/ltc-color-palettes/blob/v0.4.0/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/loukesio/ltc-color-palettes/blob/main/DESCRIPTION)
 
 Loukas Theodosiou (2026). *ltc: Collection of Artistic and
 Nature-Inspired Color Palettes*. R package version 0.4.0,
