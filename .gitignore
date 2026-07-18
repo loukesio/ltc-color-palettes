@@ -154,3 +154,4 @@ workspace/
 # Temporary files
 *.tmp
 *.temp
+ltc.Rcheck/

@@ -1,9 +1,0 @@
-adjust_ltc              Adjust Lightness of Palette Colors
-bird                    Plot a Colour Palette as a Bird
-custom_adjust_ltc       Create Custom Palette with Individual Color
-                        Adjustments
-desaturate_ltc          Desaturate Palette Colors
-info                    Information about the Colour Palettes
-ltc                     List of colour palettes
-pltc                    Plot a Colour Palette
-plts                    Plot a Colour Palette as a Sinus Curve
