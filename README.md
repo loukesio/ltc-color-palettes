@@ -4,6 +4,8 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 [![CRAN downloads](https://cranlogs.r-pkg.org/badges/grand-total/ltc)](https://cran.r-project.org/package=ltc)
 
+📖 **Website & interactive palette explorer:** <https://loukesio.github.io/ltc-color-palettes/>
+
 
 ## Install package
 Install the package using the following commands  <img align="right" src="ReadMEFigures/new_logo_ltc.png" width=400>
@@ -28,6 +30,8 @@ Every palette in the package, shown across six chart types — a map, a Voronoi
 treemap, a heatmap, a bubble chart, a barplot and a streamgraph:
 
 <img src="ReadMEFigures/palettes_showcase.gif" width=800>
+
+Try them yourself in the [**interactive palette explorer**](https://loukesio.github.io/ltc-color-palettes/palette-explorer.html) — switch between palettes, darken or brighten them, and check how they hold up under colour-vision deficiency.
 
 A couple of examples of `ltc` palettes on real data. Every palette works as a
 discrete scale, a continuous scale, or a diverging one.
