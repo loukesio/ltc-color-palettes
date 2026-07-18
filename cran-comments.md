@@ -1,31 +1,35 @@
-## R CMD check results
+## Submission — ltc 0.4.0
 
-0 errors | 0 warnings | 2 notes
+This is a minor feature update to `ltc` (version 0.3.0 is currently on CRAN).
 
-## Changes in this version (0.3.0)
+## Changes in this version (0.4.0)
 
-* Updated package for CRAN submission
-* Improved documentation and examples
-* Removed `col2transparent()` function from CRAN version (available in development version only)
-* Enhanced package metadata and compliance
+* New palette `casa_natal`.
+* New function `ltc_cvd()` previews a palette under the three main types of
+  colour-vision deficiency.
+* Added a pkgdown website; redesigned the overview figure and added example
+  charts. These assets live in the repository only and are excluded from the
+  build, so the package tarball remains small.
+* Documentation updates.
+* One co-author (previously listed with role "aut") has been removed from the
+  Authors@R field at the maintainer's request, as their earlier contribution is
+  no longer part of the package.
 
 ## Test environments
 
-* local: macOS Sequoia 15.6.1, R 4.5.1 (2025-06-13)
-* win-builder: (devel and release) - to be tested
-* R-hub: to be tested
+* local: macOS, R 4.5.1 (2025-06-13)
+* win-builder (devel and release): to be tested before submission
+* R-hub: to be tested before submission
 
 ## R CMD check results
 
-There were 2 NOTEs:
+0 errors | 0 warnings | 1 note
 
-1. New submission
-   - This is expected for a first-time CRAN submission.
+The single NOTE is local only:
 
-2. HTML validation: 'tidy' doesn't look like recent enough HTML Tidy
-   - HTML Tidy version 5.8.0 is installed locally but R CMD check doesn't recognize it.
-   - This is a local environment issue. CRAN's automated systems will validate the HTML properly.
-   - No actual HTML validation errors exist in the documentation.
+* "Skipping checking HTML validation: 'tidy' doesn't look like recent enough
+  HTML Tidy." This reflects the HTML Tidy version on the local machine, not a
+  problem in the package documentation; CRAN's systems validate the HTML.
 
 ## Downstream dependencies
 
