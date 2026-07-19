@@ -100,8 +100,13 @@ tmpl <- r"---(<!doctype html>
   .seg button{font-family:inherit;font-size:.78rem;padding:7px 10px;border:0;background:var(--bg);color:var(--sub);cursor:pointer;}
   .seg button.on{background:var(--ink);color:var(--bg);}
   .bval{font-family:"IBM Plex Mono",monospace;font-size:.78rem;color:var(--sub);}
+  .swrow{margin:0 0 12px;}
+  .swlab{font-size:.72rem;color:var(--sub);font-weight:700;display:block;margin-bottom:4px;}
   .swatches{display:flex;border-radius:10px;overflow:hidden;border:1px solid var(--line);margin:0 0 18px;}
-  .sw{flex:1;height:40px;}
+  .sw{flex:1;height:48px;display:flex;align-items:flex-end;justify-content:center;cursor:pointer;}
+  .sw span{font-family:"IBM Plex Mono",monospace;font-size:.58rem;padding:3px 0 4px;}
+  .toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:7px 15px;border-radius:18px;font-size:.82rem;opacity:0;transition:opacity .2s;pointer-events:none;}
+  .toast.show{opacity:1;}
   .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
   .card{border:1px solid var(--line);border-radius:12px;padding:11px;}
   .card h3{font-size:.8rem;color:var(--sub);font-weight:700;margin:0 0 7px;}
@@ -133,6 +138,7 @@ tmpl <- r"---(<!doctype html>
   </div>
 
   <div class="swatches" id="sw"></div>
+  <div class="toast" id="toast"></div>
 
   <div class="grid">
     <div class="card"><h3>Map · choropleth</h3><svg id="map" viewBox="0 0 240 280"></svg></div>
@@ -157,6 +163,11 @@ function bright(rgb,a){if(a<0){const k=1+a/100;return rgb.map(x=>x*k);}if(a>0){c
 const CVD={normal:null,deuteranopia:[[0.625,0.375,0],[0.70,0.30,0],[0,0.30,0.70]],protanopia:[[0.567,0.433,0],[0.558,0.442,0],[0,0.242,0.758]],tritanopia:[[0.95,0.05,0],[0,0.433,0.567],[0,0.475,0.525]]};
 function cvd(rgb,t){const m=CVD[t];if(!m)return rgb;return [0,1,2].map(i=>m[i][0]*rgb[0]+m[i][1]*rgb[1]+m[i][2]*rgb[2]);}
 const fx=rgb=>r2h(cvd(bright(rgb,state.bright),state.cvd));
+function textColor(hex){const c=hex.replace("#","");const r=parseInt(c.slice(0,2),16),g=parseInt(c.slice(2,4),16),b=parseInt(c.slice(4,6),16);return (0.299*r+0.587*g+0.114*b)>150?"#1A1A1A":"#fff";}
+const toast=document.getElementById("toast");let toastT;
+function flash(m){toast.textContent=m;toast.classList.add("show");clearTimeout(toastT);toastT=setTimeout(()=>toast.classList.remove("show"),1000);}
+function copy(t){navigator.clipboard.writeText(t).then(()=>flash("Copied "+t));}
+function fillBar(el,colors){el.innerHTML="";colors.forEach(hex=>{const H=hex.toUpperCase();const d=document.createElement("div");d.className="sw";d.style.background=hex;const s=document.createElement("span");s.textContent=H;s.style.color=textColor(hex);d.appendChild(s);d.onclick=()=>copy(H);el.appendChild(d);});}
 
 // ---- build fixed geometry once ----
 const map=document.getElementById("map");
@@ -185,8 +196,7 @@ function renderStream(cols){
 
 function render(){
   const cols=PALETTES[state.pal];
-  const sw=document.getElementById("sw");sw.innerHTML="";
-  cols.forEach(hex=>{const d=document.createElement("div");d.className="sw";d.style.background=fx(h2r(hex));sw.appendChild(d);});
+  fillBar(document.getElementById("sw"), cols.map(h=>fx(h2r(h))));
   MAP.forEach(f=>f.el.setAttribute("fill", f.v==null?"#EDEDED":fx(ramp(cols,f.v))));
   const vk=rampK(cols,VOR.length);VOR.forEach((c,i)=>c.el.setAttribute("fill",fx(vk[i])));
   hc.forEach(c=>c.el.setAttribute("fill",fx(ramp(cols,c.t))));
