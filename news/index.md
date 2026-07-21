@@ -2,11 +2,15 @@
 
 ## ltc 0.4.0.9000 (development version)
 
-- [`ltc()`](https://loukesio.github.io/ltc-color-palettes/reference/ltc.md)
-  now also accepts a variable holding a palette name
-  (e.g. `pal <- "remains"; ltc(name = pal)`), alongside `ltc("remains")`
-  and `ltc(remains)`. Added a testthat test covering the three call
-  styles.
+- [`ltc()`](https://loukesio.github.io/ltc-color-palettes/reference/ltc.md),
+  [`adjust_ltc()`](https://loukesio.github.io/ltc-color-palettes/reference/adjust_ltc.md),
+  [`custom_adjust_ltc()`](https://loukesio.github.io/ltc-color-palettes/reference/custom_adjust_ltc.md)
+  and
+  [`desaturate_ltc()`](https://loukesio.github.io/ltc-color-palettes/reference/desaturate_ltc.md)
+  now accept a palette name supplied as a variable (e.g.
+  `pal <- "remains"; ltc(pal)`), in addition to a quoted string and a
+  bare name. The name-resolution logic is shared and covered by testthat
+  tests.
 
 ## ltc 0.4.0
 
