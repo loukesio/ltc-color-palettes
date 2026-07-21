@@ -27,13 +27,8 @@ adjust_ltc <- function(palette_name, amount = 0, which = NULL) {
     stop("Package 'colorspace' is required. Install it with: install.packages('colorspace')")
   }
 
-  # Handle unquoted names
-  name_expr <- substitute(palette_name)
-  if (is.character(name_expr)) {
-    pal_name <- name_expr
-  } else {
-    pal_name <- as.character(name_expr)
-  }
+  # Resolve the palette name (quoted, bare, or a variable holding a name)
+  pal_name <- resolve_palette_name(substitute(palette_name), parent.frame())
 
   pal <- palettes[[pal_name]]
   if (is.null(pal)) {
@@ -92,13 +87,8 @@ custom_adjust_ltc <- function(palette_name, adjustments) {
     stop("Package 'colorspace' is required.")
   }
 
-  # Handle unquoted names
-  name_expr <- substitute(palette_name)
-  if (is.character(name_expr)) {
-    pal_name <- name_expr
-  } else {
-    pal_name <- as.character(name_expr)
-  }
+  # Resolve the palette name (quoted, bare, or a variable holding a name)
+  pal_name <- resolve_palette_name(substitute(palette_name), parent.frame())
 
   pal <- palettes[[pal_name]]
   if (is.null(pal)) {
@@ -151,13 +141,8 @@ desaturate_ltc <- function(palette_name, amount = 0.5, which = NULL) {
     stop("Package 'colorspace' is required.")
   }
 
-  # Handle unquoted names
-  name_expr <- substitute(palette_name)
-  if (is.character(name_expr)) {
-    pal_name <- name_expr
-  } else {
-    pal_name <- as.character(name_expr)
-  }
+  # Resolve the palette name (quoted, bare, or a variable holding a name)
+  pal_name <- resolve_palette_name(substitute(palette_name), parent.frame())
 
   pal <- palettes[[pal_name]]
   if (is.null(pal)) {

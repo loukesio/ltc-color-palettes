@@ -1,8 +1,9 @@
 # ltc 0.4.0.9000 (development version)
 
-* `ltc()` now also accepts a variable holding a palette name
-  (e.g. `pal <- "remains"; ltc(name = pal)`), alongside `ltc("remains")` and
-  `ltc(remains)`. Added a testthat test covering the three call styles.
+* `ltc()`, `adjust_ltc()`, `custom_adjust_ltc()` and `desaturate_ltc()` now
+  accept a palette name supplied as a variable (e.g.
+  `pal <- "remains"; ltc(pal)`), in addition to a quoted string and a bare name.
+  The name-resolution logic is shared and covered by testthat tests.
 
 # ltc 0.4.0
 

@@ -68,23 +68,8 @@ palettes <- list(
 ltc <- function(name, n, type = c("discrete", "continuous")) {
   type <- match.arg(type)
 
-  # Resolve the palette name, supporting three call styles:
-  #   ltc("remains")   quoted string
-  #   ltc(remains)     bare/unquoted palette name
-  #   ltc(name = pal)  a variable holding a palette name
-  name_expr <- substitute(name)
-  if (is.character(name_expr)) {
-    palette_name <- name_expr
-  } else if (is.name(name_expr) && !is.null(palettes[[as.character(name_expr)]])) {
-    # a bare symbol that is itself a palette name
-    palette_name <- as.character(name_expr)
-  } else {
-    # a variable (or expression): use its value if it is a character string,
-    # otherwise fall back to the symbol so the "not found" error still fires
-    val <- tryCatch(eval(name_expr, parent.frame()), error = function(e) NULL)
-    palette_name <- if (is.character(val) && length(val) == 1L) val
-                    else as.character(name_expr)
-  }
+  # Resolve the palette name (quoted, bare, or a variable holding a name)
+  palette_name <- resolve_palette_name(substitute(name), parent.frame())
 
   pal <- palettes[[palette_name]]
   if (is.null(pal)) {
