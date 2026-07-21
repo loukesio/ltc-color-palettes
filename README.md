@@ -160,3 +160,10 @@ The `ltc` package is developed and maintained by Loukas Theodosiou (theodosiou@e
   <img src="ReadMEFigures/book1.jpeg" width="100" />
   <img src="ReadMEFigures/book2.jpeg" width="100" />
 </p> 
+
+## Roadmap
+
+Version 0.4.0 is on CRAN. Planned for the next version:
+
+- [x] `ltc()` accepts a variable holding a palette name, e.g. `pal <- "remains"; ltc(name = pal)` — in addition to `ltc("remains")` and `ltc(remains)`. *(done)*
+- [ ] Apply the same name resolution to `adjust_ltc()`, `custom_adjust_ltc()` and `desaturate_ltc()` so they also accept a variable holding a palette name.

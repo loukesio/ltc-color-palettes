@@ -1,3 +1,9 @@
+# ltc 0.4.0.9000 (development version)
+
+* `ltc()` now also accepts a variable holding a palette name
+  (e.g. `pal <- "remains"; ltc(name = pal)`), alongside `ltc("remains")` and
+  `ltc(remains)`. Added a testthat test covering the three call styles.
+
 # ltc 0.4.0
 
 ## New features

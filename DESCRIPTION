@@ -1,6 +1,6 @@
 Package: ltc
 Title: Collection of Artistic and Nature-Inspired Color Palettes
-Version: 0.4.0
+Version: 0.4.0.9000
 Authors@R:
     person("Loukas Theodosiou", email = "theodosiou@evolbio.mpg.de", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-6418-4652"))
@@ -22,4 +22,6 @@ Imports:
     crayon
 Language: en-US
 Suggests:
-    spelling
+    spelling,
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
