@@ -184,3 +184,19 @@ the drawings and life of Pablo Picasso as well as from the following
 books
 
 ![](ReadMEFigures/book1.jpeg)![](ReadMEFigures/book2.jpeg)
+
+## Roadmap
+
+Version 0.4.0 is on CRAN. Planned for the next version:
+
+[`ltc()`](https://loukesio.github.io/ltc-color-palettes/reference/ltc.md)
+accepts a variable holding a palette name,
+e.g. `pal <- "remains"; ltc(name = pal)` — in addition to
+`ltc("remains")` and `ltc(remains)`. *(done)*
+
+Apply the same name resolution to
+[`adjust_ltc()`](https://loukesio.github.io/ltc-color-palettes/reference/adjust_ltc.md),
+[`custom_adjust_ltc()`](https://loukesio.github.io/ltc-color-palettes/reference/custom_adjust_ltc.md)
+and
+[`desaturate_ltc()`](https://loukesio.github.io/ltc-color-palettes/reference/desaturate_ltc.md)
+so they also accept a variable holding a palette name.
