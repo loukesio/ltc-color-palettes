@@ -18,6 +18,13 @@ reference:
   contents:
   - ltc
   - info
+- title: Use in ggplot2
+  desc: Colour and fill scales built from a palette.
+  contents:
+  - scale_fill_ltc
+  - scale_colour_ltc
+  - ltc_pal
+
 - title: Visualise
   desc: Draw a palette.
   contents:
