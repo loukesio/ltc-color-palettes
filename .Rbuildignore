@@ -36,3 +36,5 @@
 ^ltc\.Rcheck$
 ^claude_instructions$
 ^claude_instructions/
+^examples$
+^examples/

@@ -1,5 +1,16 @@
 # ltc 0.4.0.9000 (development version)
 
+* New ggplot2 scales, in the style of `scale_fill_viridis()`:
+  `scale_fill_ltc()`, `scale_colour_ltc()` and `scale_color_ltc()`. Each takes
+  a palette name, `discrete = TRUE` (the default) or `FALSE` for a continuous
+  scale, and `direction = -1` to reverse the palette. Plots no longer need
+  `scale_fill_manual(values = ltc(...))`.
+* New `ltc_pal()` returns a palette function of `n`, for use with other scale
+  constructors. It interpolates when asked for more colours than the palette
+  holds, so a scale does not break on more groups than expected.
+* The all-palettes README figure is now a gallery of treemap palette cards,
+  showing each colour's role, share and codes.
+
 * `ltc()`, `adjust_ltc()`, `custom_adjust_ltc()` and `desaturate_ltc()` now
   accept a palette name supplied as a variable (e.g.
   `pal <- "remains"; ltc(pal)`), in addition to a quoted string and a bare name.

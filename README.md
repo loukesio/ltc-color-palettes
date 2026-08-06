@@ -83,6 +83,37 @@ bird(pantone23)
 
 <sup>Created on 2023-09-03 with [reprex v2.0.2](https://reprex.tidyverse.org)</sup>
 
+### Use a palette directly in ggplot2
+
+`scale_fill_ltc()` and `scale_colour_ltc()` work like `scale_fill_viridis()`,
+so you don't need `scale_fill_manual(values = ...)`:
+
+``` r
+library(ggplot2)
+library(ltc)
+
+# discrete
+ggplot(mtcars, aes(factor(cyl), mpg, fill = factor(cyl))) +
+  geom_boxplot() +
+  scale_fill_ltc(maya)
+
+# continuous
+ggplot(faithfuld, aes(waiting, eruptions, fill = density)) +
+  geom_raster() +
+  scale_fill_ltc(heatmap0, discrete = FALSE)
+
+# reverse the palette
+scale_colour_ltc(alger, direction = -1)
+```
+
+`scale_color_ltc()` is the same function under the US spelling. For other scale
+constructors, `ltc_pal()` returns a palette function of `n`:
+
+``` r
+ltc_pal(maya)(3)
+#> [1] "#3d5a80" "#98c1d9" "#e0fbfc"
+```
+
 ### Adjust a palette — darken, brighten, or desaturate
 
 Every palette can be tuned without leaving the package. `adjust_ltc()` darkens
@@ -167,3 +198,4 @@ Version 0.4.0 is on CRAN. Planned for the next version:
 
 - [x] `ltc()` accepts a variable holding a palette name, e.g. `pal <- "remains"; ltc(name = pal)` — in addition to `ltc("remains")` and `ltc(remains)`. *(done)*
 - [x] Apply the same name resolution to `adjust_ltc()`, `custom_adjust_ltc()` and `desaturate_ltc()` so they also accept a variable holding a palette name. *(done)*
+- [x] Add ggplot2 scales — `scale_fill_ltc()`, `scale_colour_ltc()`, `scale_color_ltc()` and `ltc_pal()` — in the style of `scale_fill_viridis()`. *(done)*
