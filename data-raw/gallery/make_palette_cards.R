@@ -215,6 +215,28 @@ sans <- function(txt, x, y, cex, col, font = 1, adj = 0) {
                  family = "plexsans", adj = c(adj, 0.5), xpd = NA)
 }
 
+# Shorten to fit a given width, on a word boundary where possible. Palette
+# descriptions come from the package and some are long, so a card must be able
+# to clip one rather than run it into the colour count or off its own edge.
+fit_sans <- function(txt, maxw, cex, font = 1) {
+  fits <- function(s) {
+    graphics::strwidth(s, cex = cex, font = font, family = "plexsans") <= maxw
+  }
+  if (maxw <= 0) return("")
+  if (fits(txt)) return(txt)
+  words <- strsplit(txt, " ")[[1]]
+  for (k in rev(seq_along(words))[-1]) {
+    cand <- paste0(paste(words[seq_len(k)], collapse = " "), "…")
+    if (fits(cand)) return(cand)
+  }
+  ch <- strsplit(txt, "")[[1]]
+  for (k in rev(seq_along(ch))) {
+    cand <- paste0(paste(ch[seq_len(k)], collapse = ""), "…")
+    if (fits(cand)) return(cand)
+  }
+  ""
+}
+
 # Wrap on width, in user units, for the explainer rail.
 wrap_sans <- function(txt, width, cex, font = 1) {
   words <- strsplit(txt, " ")[[1]]
@@ -247,12 +269,17 @@ CEX_BODY    <- 0.66
 
 # --- one card --------------------------------------------------------------
 
+# Height of the header block, measured to the rule under it. A wide card sets
+# the description beside the name; a narrow one stacks it underneath, which
+# needs room for the name's descenders to clear the line below.
+head_h <- function(wide) if (wide) 58 else 90
+
 card_height <- function(n, wide, max_codes = MAX_CODES) {
   body <- if (n >= 8) 330 else if (n >= 6) 300 else if (n == 5) 265 else 235
   if (!wide) body <- body * 0.86
   # Fewer code lines need less room inside each tile, so the card can be shorter.
   body <- body * c(0.78, 0.89, 1)[max(1, min(3, max_codes))]
-  round(66 + body + 26)
+  round(head_h(wide) + 16 + body + 26)
 }
 
 draw_card <- function(name, x, y, w, wide = TRUE, max_codes = MAX_CODES) {
@@ -271,18 +298,26 @@ draw_card <- function(name, x, y, w, wide = TRUE, max_codes = MAX_CODES) {
   iw   <- w - 2 * pad
   head_y <- y + 34
 
-  sans(name, ix, head_y, CEX_NAME * (if (wide) 1 else 0.82), INK, font = 2)
-  nw <- graphics::strwidth(name, cex = CEX_NAME * (if (wide) 1 else 0.82),
-                           font = 2, family = "plexsans")
+  name_cex <- CEX_NAME * (if (wide) 1 else 0.82)
+  sans(name, ix, head_y, name_cex, INK, font = 2)
+  nw <- graphics::strwidth(name, cex = name_cex, font = 2, family = "plexsans")
+
+  count_txt <- paste(n, "COLOURS")
+  count_w   <- track_width(count_txt, CEX_LABEL, TRACK)
+  tracked(count_txt, x + w - pad, head_y, CEX_LABEL, MUTED, TRACK, adj = 1)
+
   if (wide) {
-    sans(bio, ix + nw + 16, head_y + 3, CEX_BIO, MUTED)
-  }
-  tracked(paste(n, "COLOURS"), x + w - pad, head_y, CEX_LABEL, MUTED, TRACK, adj = 1)
-  if (!wide) {
-    sans(bio, ix, head_y + 20, CEX_BIO * 0.94, MUTED)
+    # Beside the name, in whatever room is left before the colour count.
+    bio_x <- ix + nw + 16
+    sans(fit_sans(bio, (x + w - pad - count_w - 20) - bio_x, CEX_BIO),
+         bio_x, head_y + 3, CEX_BIO, MUTED)
+  } else {
+    # Stacked under the name. 30px of leading clears the descenders of names
+    # like "gaby" and "franscoise", which used to sit on top of the line below.
+    sans(fit_sans(bio, iw, CEX_BIO * 0.94), ix, head_y + 30, CEX_BIO * 0.94, MUTED)
   }
 
-  rule_y <- y + (if (wide) 58 else 76)
+  rule_y <- y + head_h(wide)
   graphics::segments(ix, rule_y, x + w - pad, rule_y, col = INK, lwd = 1.1, xpd = NA)
 
   top    <- rule_y + 16
