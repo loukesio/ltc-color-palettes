@@ -8,9 +8,17 @@
 # Output: ReadMEFigures/all_palettes.png
 # Fonts:  IBM Plex Sans / IBM Plex Mono (local installs, Google Fonts fallback)
 #
-# Two variants, switched with the SHOW_NAMES flag below:
-#   FALSE - codes only (hex / RGB / HSL)
-#   TRUE  - plus a derived colour name per swatch (nearest CSS colour in Lab)
+# Every knob is an environment variable, so the figure can be re-cut without
+# editing this file:
+#
+#   LTC_CARD_WEIGHT  equal (default) | order | chroma   what sets a tile's area
+#   LTC_CARD_SCALE   pixel density multiplier (default 2)
+#   LTC_CARD_W       layout width in px (default 1100)
+#   LTC_CARD_CODES   code lines per tile: 1 hex (default), 2 +RGB, 3 +HSL
+#   LTC_CARD_ONEUP   TRUE to give every card a full-width row
+#   LTC_CARD_PCT     TRUE to print a share percentage on each tile
+#   LTC_CARD_NAMES   TRUE to add a derived colour name (nearest CSS in Lab)
+#   LTC_CARD_OUT     output path
 
 SHOW_NAMES <- isTRUE(as.logical(Sys.getenv("LTC_CARD_NAMES", "FALSE")))
 OUT <- Sys.getenv("LTC_CARD_OUT", "ReadMEFigures/all_palettes.png")
@@ -23,10 +31,19 @@ W <- as.numeric(Sys.getenv("LTC_CARD_W", "1100"))
 # One card per row reads far better than two, at the cost of a longer page.
 ONE_UP <- isTRUE(as.logical(Sys.getenv("LTC_CARD_ONEUP", "FALSE")))
 
-# How many code lines a gallery card may show (hex, RGB, HSL). The hero key
-# always shows all three; repeating HSL for 290 colours is mostly noise, and
-# it is the space that makes tiles cramped.
-MAX_CODES <- as.integer(Sys.getenv("LTC_CARD_CODES", "2"))
+# How many code lines a tile may show (hex, RGB, HSL). Default 1, the hex
+# alone. RGB and HSL cannot go on EVERY tile - a sliver has no room for
+# "RGB 237·119·60" at any legible size - so showing them only on the large
+# tiles made the cards inconsistent about which colours got them. One code,
+# on every colour, is the honest choice.
+MAX_CODES <- as.integer(Sys.getenv("LTC_CARD_CODES", "1"))
+
+# Tile areas encode palette ORDER, not a measured quantity: nothing about a
+# colour determines its area, only its position and the palette's length, so
+# every five-colour palette would print the same figures. Printing a percentage
+# would dress a design convention up as a measurement, so the numbers are off
+# by default. The areas stay, because the ordering they show is real.
+SHOW_PCT <- isTRUE(as.logical(Sys.getenv("LTC_CARD_PCT", "FALSE")))
 
 pkg <- new.env()
 sys.source(file.path("R", "ltc_functions.R"), envir = pkg)
@@ -51,32 +68,54 @@ add_family("plexsans", "IBMPlexSans-Regular.otf", "IBMPlexSans-Bold.otf", "IBM P
 add_family("plexmono", "IBMPlexMono-Regular.otf", "IBMPlexMono-SemiBold.otf", "IBM Plex Mono")
 showtext::showtext_auto()
 
-RES <- 150
-showtext::showtext_opts(dpi = RES)
+# Pixel density. All geometry below is in layout units at RES dpi; SCALE
+# multiplies the device pixels AND the dpi together, so the figure is laid out
+# identically and only gets denser. 2 gives a sharp image on a retina display,
+# where the figure is shown at about 830 CSS px and the extra pixels are used.
+RES   <- 150
+SCALE <- as.numeric(Sys.getenv("LTC_CARD_SCALE", "2"))
+showtext::showtext_opts(dpi = RES * SCALE)
 
 # --- palette maths ---------------------------------------------------------
 
-# Share of the plot each colour is meant to carry. Zipf decay: the first colour
-# takes ~35%, the top three ~64%, which is the 60-30-10 rule generalised to a
-# palette of any length.
+# What sets a tile's area. Three honest choices, no decoration:
+#
+#   order  - Zipf decay by position, (1/i)/H_n. Shows that palette order is
+#            deliberate. Says nothing about the colours, so every palette of a
+#            given length gets an identical card.
+#   equal  - every colour the same area. Claims nothing at all.
+#   chroma - area follows colour intensity (C* in Lab), an actual measurement.
+#            Cards genuinely differ: a muted palette tiles evenly, one with a
+#            single loud accent shows it.
+WEIGHT <- Sys.getenv("LTC_CARD_WEIGHT", "equal")
+
+chroma_of <- function(hex) {
+  lab <- t(grDevices::convertColor(t(grDevices::col2rgb(hex) / 255),
+                                   from = "sRGB", to = "Lab"))
+  sqrt(lab[2, ]^2 + lab[3, ]^2)
+}
+
 zipf_shares <- function(n) {
   w <- 1 / seq_len(n)
   w / sum(w)
 }
 
-# Role names follow rank, except that a pale near-grey is called out as the
-# neutral regardless of where it sits.
-roles_for <- function(hex, n) {
-  lab <- t(grDevices::convertColor(t(grDevices::col2rgb(hex) / 255),
-                                   from = "sRGB", to = "Lab"))
-  L <- lab[1, ]
-  chroma <- sqrt(lab[2, ]^2 + lab[3, ]^2)
-  r <- ifelse(seq_len(n) == 1, "DOMINANT",
-       ifelse(seq_len(n) == 2, "SECONDARY",
-       ifelse(seq_len(n) <= 4, "SUPPORT", "ACCENT")))
-  r[seq_len(n) > 2 & chroma < 12 & L > 80] <- "NEUTRAL"
-  r
+tile_weights <- function(hex, n) {
+  w <- switch(
+    WEIGHT,
+    equal  = rep(1, n),
+    # Floor the weight so a pure grey still gets a readable tile rather than a
+    # slice too thin to hold its hex.
+    chroma = 0.45 + chroma_of(hex) / max(max(chroma_of(hex)), 1e-6),
+    zipf_shares(n)
+  )
+  w / sum(w)
 }
+
+# Role names (dominant / secondary / support / accent) are gone. They ranked
+# colours by position, which said nothing measurable about them, and under
+# equal areas there is no hierarchy left for them to describe. A tile now
+# carries its colour and its hex, and nothing it cannot support.
 
 luminance <- function(hex) {
   rgb <- grDevices::col2rgb(hex) / 255
@@ -120,6 +159,50 @@ name_for <- function(hex) {
   n <- gsub("([a-z])([A-Z])", "\\1 \\2", n)
   n <- gsub("(dark|light|medium|pale|deep)", "\\1 ", n)
   toupper(trimws(gsub("\\s+", " ", n)))
+}
+
+# --- equal-area grid -------------------------------------------------------
+# A squarified treemap fills column by column, so scanning the top row left to
+# right gives palette colours 1, 3, 5, 7... A reader should not have to learn a
+# serpentine order, so equal areas get their own layout: strict rows, filled
+# left to right in palette order.
+#
+# Rows need not hold the same number of tiles. Areas stay exactly equal because
+# a row's HEIGHT scales with how many tiles it holds: a row of k tiles across
+# width w gives each tile w/k of width and h*k/n of height, so every tile is
+# w*h/n whatever k is.
+equal_grid <- function(n, x, y, w, h) {
+  split_rows <- function(R) {
+    base <- n %/% R
+    rem  <- n %% R
+    rep(c(base + 1L, base), c(rem, R - rem))   # fuller rows first
+  }
+  # Pick the row count whose tiles sit closest to a calm landscape aspect.
+  best <- NULL
+  for (R in seq_len(max(1, min(n, 4)))) {
+    ks <- split_rows(R)
+    if (any(ks == 0)) next
+    asp <- (w / ks) / (h * ks / n)             # width / height per row
+    cost <- max(abs(log(asp / 1.25)))
+    if (is.null(best) || cost < best$cost) best <- list(cost = cost, ks = ks)
+  }
+  ks <- best$ks
+
+  out <- data.frame(i = integer(), x = numeric(), y = numeric(),
+                    w = numeric(), h = numeric())
+  idx <- 1L
+  cy <- y
+  for (k in ks) {
+    rh <- h * k / n
+    tw <- w / k
+    for (j in seq_len(k)) {
+      out <- rbind(out, data.frame(i = idx, x = x + (j - 1) * tw, y = cy,
+                                   w = tw, h = rh))
+      idx <- idx + 1L
+    }
+    cy <- cy + rh
+  }
+  out
 }
 
 # --- squarified treemap ----------------------------------------------------
@@ -272,24 +355,24 @@ CEX_BODY    <- 0.66
 # Height of the header block, measured to the rule under it. A wide card sets
 # the description beside the name; a narrow one stacks it underneath, which
 # needs room for the name's descenders to clear the line below.
-head_h <- function(wide) if (wide) 58 else 90
+head_h <- function(stack) if (stack) 90 else 58
 
-card_height <- function(n, wide, max_codes = MAX_CODES) {
+card_height <- function(n, wide, max_codes = MAX_CODES, stack = !wide) {
   body <- if (n >= 8) 330 else if (n >= 6) 300 else if (n == 5) 265 else 235
   if (!wide) body <- body * 0.86
   # Fewer code lines need less room inside each tile, so the card can be shorter.
   body <- body * c(0.78, 0.89, 1)[max(1, min(3, max_codes))]
-  round(head_h(wide) + 16 + body + 26)
+  round(head_h(stack) + 16 + body + 26)
 }
 
-draw_card <- function(name, x, y, w, wide = TRUE, max_codes = MAX_CODES) {
+draw_card <- function(name, x, y, w, wide = TRUE, max_codes = MAX_CODES,
+                      stack = !wide) {
   cols   <- palettes[[name]]
   n      <- length(cols)
-  shares <- zipf_shares(n)
+  shares <- tile_weights(cols, n)
   pct    <- round(shares * 100)
-  roles  <- roles_for(cols, n)
   bio    <- descriptions[[name]]
-  h      <- card_height(n, wide)
+  h      <- card_height(n, wide, max_codes, stack)
 
   graphics::rect(x, y, x + w, y + h, col = CARD, border = NA, xpd = NA)
 
@@ -306,23 +389,24 @@ draw_card <- function(name, x, y, w, wide = TRUE, max_codes = MAX_CODES) {
   count_w   <- track_width(count_txt, CEX_LABEL, TRACK)
   tracked(count_txt, x + w - pad, head_y, CEX_LABEL, MUTED, TRACK, adj = 1)
 
-  if (wide) {
+  if (stack) {
+    # Under the name. 30px of leading clears the descenders of names like
+    # "gaby" and "franscoise", which used to sit on top of the line below.
+    sans(fit_sans(bio, iw, CEX_BIO * 0.94), ix, head_y + 30, CEX_BIO * 0.94, MUTED)
+  } else {
     # Beside the name, in whatever room is left before the colour count.
     bio_x <- ix + nw + 16
     sans(fit_sans(bio, (x + w - pad - count_w - 20) - bio_x, CEX_BIO),
          bio_x, head_y + 3, CEX_BIO, MUTED)
-  } else {
-    # Stacked under the name. 30px of leading clears the descenders of names
-    # like "gaby" and "franscoise", which used to sit on top of the line below.
-    sans(fit_sans(bio, iw, CEX_BIO * 0.94), ix, head_y + 30, CEX_BIO * 0.94, MUTED)
   }
 
-  rule_y <- y + head_h(wide)
+  rule_y <- y + head_h(stack)
   graphics::segments(ix, rule_y, x + w - pad, rule_y, col = INK, lwd = 1.1, xpd = NA)
 
   top    <- rule_y + 16
   body_h <- y + h - 26 - top
-  tm <- squarify(shares, ix, top, iw, body_h)
+  tm <- if (WEIGHT == "equal") equal_grid(n, ix, top, iw, body_h)
+        else squarify(shares, ix, top, iw, body_h)
 
   for (k in seq_len(n)) {
     r  <- tm[k, ]
@@ -350,17 +434,11 @@ draw_card <- function(name, x, y, w, wide = TRUE, max_codes = MAX_CODES) {
     pct_cex <- CEX_PCT * (if (r$h > 120 && r$w > 150) 1 else 0.74)
     pct_txt <- paste0(pct[k], "%")
     pct_w   <- graphics::strwidth(pct_txt, cex = pct_cex, font = 2, family = "plexsans")
-    role_w  <- track_width(roles[k], CEX_LABEL, TRACK)
-
-    show_pct  <- room_h > 26 && pct_w <= room_w
-    show_role <- room_h > 26 &&
-      role_w + (if (show_pct) pct_w + 14 else 0) <= room_w
-
-    if (show_role) tracked(roles[k], r$x + tpad, r$y + tpad + 6, CEX_LABEL, fg, TRACK)
+    show_pct <- SHOW_PCT && room_h > 26 && pct_w <= room_w
     if (show_pct)  sans(pct_txt, r$x + r$w - tpad, r$y + tpad + 8, pct_cex, fg,
                         font = 2, adj = 1)
 
-    head_h <- if (show_pct || show_role) 30 else 0
+    head_h <- if (show_pct) 30 else 0
     avail  <- room_h - head_h            # vertical room left under the header
 
     code <- list(
@@ -421,19 +499,17 @@ draw_rail <- function(x, y, w) {
     ty <<- ty + 14
   }
 
-  para("AREA = SHARE",
-       paste("Each tile's area is the share of a chart that colour is meant to",
-             "carry. The first colour takes about a third, the top three about",
-             "two thirds - the 60-30-10 rule generalised to any palette length."))
-  para("ROLE",
-       paste("Dominant, secondary, support, accent, neutral - assigned by",
-             "position, so colour one is always the workhorse and the tail is",
-             "for emphasis."))
+  para("EQUAL AREAS",
+       paste("Every colour gets the same area. Nothing about a palette makes one",
+             "of its colours larger than another, so the card does not pretend",
+             "otherwise - what varies between these cards is the colour itself."))
   para("CODES",
-       paste("Hex to paste into R, RGB for screen, HSL for tuning. Bigger tiles",
-             "show more; small ones keep the hex only."))
+       paste("The hex code, on every colour, ready to paste into R. Nothing",
+             "else - a code that only fits on the big tiles would say more",
+             "about the tile than about the palette."))
   para("ORDER",
-       "Colours read left to right exactly as ltc() returns them.")
+       paste("Colours read left to right, row by row, exactly as ltc() returns",
+             "them. ltc(maya, n = 3) hands you the first three."))
 
   ty <- ty - 6
   graphics::rect(x, ty, x + w, ty + 58, col = "#F1EFE8", border = NA, xpd = NA)
@@ -478,7 +554,7 @@ plan <- list()
 cursor <- MARGIN + 26
 
 hero_body_w <- content_w - RAIL_W - 46
-hero_h <- max(card_height(length(palettes[[hero]]), TRUE, 3), rail_height())
+hero_h <- max(card_height(length(palettes[[hero]]), TRUE, MAX_CODES, stack = TRUE), rail_height())
 plan[[length(plan) + 1]] <- list(kind = "hero", y = cursor, h = hero_h)
 cursor <- cursor + hero_h + 46
 
@@ -516,7 +592,8 @@ H <- cursor + MARGIN
 
 # --- draw ------------------------------------------------------------------
 dir.create(dirname(OUT), showWarnings = FALSE, recursive = TRUE)
-ragg::agg_png(OUT, width = W, height = H, units = "px", res = RES,
+ragg::agg_png(OUT, width = W * SCALE, height = H * SCALE, units = "px",
+              res = RES * SCALE,
               background = BG)
 graphics::par(mar = rep(0, 4), xaxs = "i", yaxs = "i")
 graphics::plot.new()
@@ -524,7 +601,7 @@ graphics::plot.window(xlim = c(0, W), ylim = c(H, 0), asp = 1)
 
 for (item in plan) {
   if (item$kind == "hero") {
-    draw_card(hero, MARGIN, item$y, hero_body_w, wide = TRUE, max_codes = 3)
+    draw_card(hero, MARGIN, item$y, hero_body_w, wide = TRUE, stack = TRUE)
     draw_rail(MARGIN + hero_body_w + 46, item$y + 12, RAIL_W)
   } else if (item$kind == "section") {
     s <- SECTIONS[[item$sec]]
@@ -542,4 +619,5 @@ for (item in plan) {
 }
 
 grDevices::dev.off()
-message("wrote ", OUT, " (", W, "x", H, ", names = ", SHOW_NAMES, ")")
+message("wrote ", OUT, " (", W * SCALE, "x", H * SCALE, " px, ",
+        "layout ", W, "x", H, " @ ", SCALE, "x, weight = ", WEIGHT, ")")

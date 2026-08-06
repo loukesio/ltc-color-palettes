@@ -8,8 +8,11 @@
 * New `ltc_pal()` returns a palette function of `n`, for use with other scale
   constructors. It interpolates when asked for more colours than the palette
   holds, so a scale does not break on more groups than expected.
-* The all-palettes README figure is now a gallery of treemap palette cards,
-  showing each colour's role, share and codes.
+* The all-palettes README figure is now a gallery of palette cards: one card
+  per palette, every colour an equal tile carrying its hex code, grouped by how
+  many colours the palette has. Drawn at twice the pixel density, and generated
+  by `data-raw/gallery/make_palette_cards.R` straight from the palette
+  definitions, so a new palette appears with no other edit.
 
 * `ltc()`, `adjust_ltc()`, `custom_adjust_ltc()` and `desaturate_ltc()` now
   accept a palette name supplied as a variable (e.g.
