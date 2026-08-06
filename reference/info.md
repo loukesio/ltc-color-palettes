@@ -11,4 +11,4 @@ info
 
 ## Format
 
-An object of class `data.frame` with 31 rows and 2 columns.
+An object of class `data.frame` with 32 rows and 2 columns.

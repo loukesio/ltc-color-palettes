@@ -10,6 +10,18 @@ Select and inspect the palette collection.
 - [`info`](https://loukesio.github.io/ltc-color-palettes/reference/info.md)
   : Information about the Colour Palettes
 
+## Use in ggplot2
+
+Colour and fill scales built from a palette.
+
+- [`scale_fill_ltc()`](https://loukesio.github.io/ltc-color-palettes/reference/scale_fill_ltc.md)
+  : ggplot2 Fill Scale from an ltc Palette
+- [`scale_colour_ltc()`](https://loukesio.github.io/ltc-color-palettes/reference/scale_colour_ltc.md)
+  [`scale_color_ltc()`](https://loukesio.github.io/ltc-color-palettes/reference/scale_colour_ltc.md)
+  : ggplot2 Colour Scale from an ltc Palette
+- [`ltc_pal()`](https://loukesio.github.io/ltc-color-palettes/reference/ltc_pal.md)
+  : Build a Palette Function from an ltc Palette
+
 ## Visualise
 
 Draw a palette.

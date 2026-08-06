@@ -15,7 +15,7 @@ ltc(name, n, type = c("discrete", "continuous"))
 
 ## Format
 
-An object of class `list` of length 31.
+An object of class `list` of length 32.
 
 ## Arguments
 

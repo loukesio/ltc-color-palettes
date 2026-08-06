@@ -119,10 +119,35 @@
 <p><sup>Created on 2023-09-03 with <a href="https://reprex.tidyverse.org" class="external-link">reprex v2.0.2</a></sup></p>
 </div>
 <div class="section level3">
+<h3 id="use-a-palette-directly-in-ggplot2">Use a palette directly in ggplot2<a class="anchor" aria-label="anchor" href="#use-a-palette-directly-in-ggplot2"></a>
+</h3>
+<p><code><a href="reference/scale_fill_ltc.html">scale_fill_ltc()</a></code> and <code><a href="reference/scale_colour_ltc.html">scale_colour_ltc()</a></code> work like <code>scale_fill_viridis()</code>, so you don’t need <code>scale_fill_manual(values = ...)</code>:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/loukesio/ltc-color-palettes" class="external-link">ltc</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># discrete</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">cyl</span><span class="op">)</span>, <span class="va">mpg</span>, fill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">cyl</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html" class="external-link">geom_boxplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="reference/scale_fill_ltc.html">scale_fill_ltc</a></span><span class="op">(</span><span class="va">maya</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># continuous</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">faithfuld</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">waiting</span>, <span class="va">eruptions</span>, fill <span class="op">=</span> <span class="va">density</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_tile.html" class="external-link">geom_raster</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="reference/scale_fill_ltc.html">scale_fill_ltc</a></span><span class="op">(</span><span class="va">heatmap0</span>, discrete <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># reverse the palette</span></span>
+<span><span class="fu"><a href="reference/scale_colour_ltc.html">scale_colour_ltc</a></span><span class="op">(</span><span class="va">alger</span>, direction <span class="op">=</span> <span class="op">-</span><span class="fl">1</span><span class="op">)</span></span></code></pre></div>
+<p><code><a href="reference/scale_colour_ltc.html">scale_color_ltc()</a></code> is the same function under the US spelling. For other scale constructors, <code><a href="reference/ltc_pal.html">ltc_pal()</a></code> returns a palette function of <code>n</code>:</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/ltc_pal.html">ltc_pal</a></span><span class="op">(</span><span class="va">maya</span><span class="op">)</span><span class="op">(</span><span class="fl">3</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "#3d5a80" "#98c1d9" "#e0fbfc"</span></span></code></pre></div>
+</div>
+<div class="section level3">
 <h3 id="adjust-a-palette--darken-brighten-or-desaturate">Adjust a palette — darken, brighten, or desaturate<a class="anchor" aria-label="anchor" href="#adjust-a-palette--darken-brighten-or-desaturate"></a>
 </h3>
 <p>Every palette can be tuned without leaving the package. <code><a href="reference/adjust_ltc.html">adjust_ltc()</a></code> darkens (negative <code>amount</code>) or lightens (positive <code>amount</code>) the colours, and <code><a href="reference/desaturate_ltc.html">desaturate_ltc()</a></code> mutes them:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/loukesio/ltc-color-palettes" class="external-link">ltc</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="reference/adjust_ltc.html">adjust_ltc</a></span><span class="op">(</span><span class="va">maya</span>, amount <span class="op">=</span> <span class="op">-</span><span class="fl">30</span><span class="op">)</span>      <span class="co"># darker</span></span>
@@ -138,7 +163,7 @@
 <h3 id="check-colour-vision-accessibility">Check colour-vision accessibility<a class="anchor" aria-label="anchor" href="#check-colour-vision-accessibility"></a>
 </h3>
 <p><code><a href="reference/ltc_cvd.html">ltc_cvd()</a></code> simulates how a palette looks to viewers with the three main types of colour-vision deficiency, so you can check that the colours stay distinct:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/loukesio/ltc-color-palettes" class="external-link">ltc</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="reference/ltc_cvd.html">ltc_cvd</a></span><span class="op">(</span><span class="va">maya</span><span class="op">)</span>                     <span class="co"># normal + deuteranopia / protanopia / tritanopia</span></span>
@@ -151,7 +176,7 @@
 <ul>
 <li>Example 1 - Hexagon diagram</li>
 </ul>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/loukesio/ltc-color-palettes" class="external-link">ltc</a></span><span class="op">)</span></span>
 <span><span class="va">pal</span><span class="op">=</span><span class="fu"><a href="reference/ltc.html">ltc</a></span><span class="op">(</span><span class="st">"heatmap0"</span>,<span class="fl">10</span>,<span class="st">"continuous"</span><span class="op">)</span></span>
@@ -166,7 +191,7 @@
 <ul>
 <li>Example 2 - Histogram</li>
 </ul>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/loukesio/ltc-color-palettes" class="external-link">ltc</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="va">pal</span><span class="op">=</span><span class="fu"><a href="reference/ltc.html">ltc</a></span><span class="op">(</span><span class="st">"alger"</span>,<span class="fl">5</span>,<span class="st">"continuous"</span><span class="op">)</span></span>
@@ -194,6 +219,7 @@ The <code>ltc</code> package is developed and maintained by Loukas Theodosiou (<
 <ul class="task-list">
 <li><label><input type="checkbox" checked><code><a href="reference/ltc.html">ltc()</a></code> accepts a variable holding a palette name, e.g. <code>pal &lt;- "remains"; ltc(name = pal)</code> — in addition to <code>ltc("remains")</code> and <code>ltc(remains)</code>. <em>(done)</em></label></li>
 <li><label><input type="checkbox" checked>Apply the same name resolution to <code><a href="reference/adjust_ltc.html">adjust_ltc()</a></code>, <code><a href="reference/custom_adjust_ltc.html">custom_adjust_ltc()</a></code> and <code><a href="reference/desaturate_ltc.html">desaturate_ltc()</a></code> so they also accept a variable holding a palette name. <em>(done)</em></label></li>
+<li><label><input type="checkbox" checked>Add ggplot2 scales — <code><a href="reference/scale_fill_ltc.html">scale_fill_ltc()</a></code>, <code><a href="reference/scale_colour_ltc.html">scale_colour_ltc()</a></code>, <code><a href="reference/scale_colour_ltc.html">scale_color_ltc()</a></code> and <code><a href="reference/ltc_pal.html">ltc_pal()</a></code> — in the style of <code>scale_fill_viridis()</code>. <em>(done)</em></label></li>
 </ul>
 </div>
 

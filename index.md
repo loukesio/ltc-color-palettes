@@ -95,6 +95,45 @@ bird(pantone23)
 
 ^(Created on 2023-09-03 with [reprex v2.0.2](https://reprex.tidyverse.org))
 
+### Use a palette directly in ggplot2
+
+[`scale_fill_ltc()`](https://loukesio.github.io/ltc-color-palettes/reference/scale_fill_ltc.md)
+and
+[`scale_colour_ltc()`](https://loukesio.github.io/ltc-color-palettes/reference/scale_colour_ltc.md)
+work like `scale_fill_viridis()`, so you don’t need
+`scale_fill_manual(values = ...)`:
+
+``` r
+
+library(ggplot2)
+library(ltc)
+
+# discrete
+ggplot(mtcars, aes(factor(cyl), mpg, fill = factor(cyl))) +
+  geom_boxplot() +
+  scale_fill_ltc(maya)
+
+# continuous
+ggplot(faithfuld, aes(waiting, eruptions, fill = density)) +
+  geom_raster() +
+  scale_fill_ltc(heatmap0, discrete = FALSE)
+
+# reverse the palette
+scale_colour_ltc(alger, direction = -1)
+```
+
+[`scale_color_ltc()`](https://loukesio.github.io/ltc-color-palettes/reference/scale_colour_ltc.md)
+is the same function under the US spelling. For other scale
+constructors,
+[`ltc_pal()`](https://loukesio.github.io/ltc-color-palettes/reference/ltc_pal.md)
+returns a palette function of `n`:
+
+``` r
+
+ltc_pal(maya)(3)
+#> [1] "#3d5a80" "#98c1d9" "#e0fbfc"
+```
+
 ### Adjust a palette — darken, brighten, or desaturate
 
 Every palette can be tuned without leaving the package.
@@ -200,3 +239,11 @@ Apply the same name resolution to
 and
 [`desaturate_ltc()`](https://loukesio.github.io/ltc-color-palettes/reference/desaturate_ltc.md)
 so they also accept a variable holding a palette name. *(done)*
+
+Add ggplot2 scales —
+[`scale_fill_ltc()`](https://loukesio.github.io/ltc-color-palettes/reference/scale_fill_ltc.md),
+[`scale_colour_ltc()`](https://loukesio.github.io/ltc-color-palettes/reference/scale_colour_ltc.md),
+[`scale_color_ltc()`](https://loukesio.github.io/ltc-color-palettes/reference/scale_colour_ltc.md)
+and
+[`ltc_pal()`](https://loukesio.github.io/ltc-color-palettes/reference/ltc_pal.md)
+— in the style of `scale_fill_viridis()`. *(done)*
