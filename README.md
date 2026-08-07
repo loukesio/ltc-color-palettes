@@ -22,7 +22,7 @@ devtools::install_github("loukesio/ltc-color-palettes")
 library(ltc)
 ```
 
-<img src="ReadMEFigures/all_palettes.png" width=1000>
+<img src="ReadMEFigures/all_palettes.png" width=800>
 
 ## Palettes in action
 
